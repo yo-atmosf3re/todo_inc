@@ -10,12 +10,22 @@ function App() {
         { id: 3, title: "ReactJS", isDone: false },
         { id: 4, title: "Redux", isDone: false },
     ]
+
+    function removeTask(id: number) {
+        debugger
+        let resultTasks = tasks.filter((t) => {
+            if (t.id !== id) return true;
+            else return false;
+        })
+        console.log(resultTasks)
+    }
+
     return (
-        <div className="App">
-            <Todolist title='What to learn' tasks={tasks} />
-            <Todolist title='What to learn' tasks={tasks} />
-            <Todolist title='What to learn' tasks={tasks} />
-        </div>
+        <div className="App" >
+            <Todolist title='What to learn'
+                tasks={tasks}
+                removeTask={removeTask} />
+        </div >
     );
 }
 
