@@ -55,6 +55,11 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask} />
+            <Todolist title='What to learn'
+                tasks={tasksForTodolist}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+                addTask={addTask} />
         </div >
     );
 }
