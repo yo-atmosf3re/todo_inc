@@ -6,3 +6,29 @@
 .App > div {
   margin-right: 50px;
 }
+
+
+
+.error {
+  border: red 1px solid;
+  margin: 0 5px 0 0;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+}
+
+.button-plus {
+  background-color: rgb(172, 164, 164);
+  color:rgb(240, 237, 234)
+}
+
+.active-filter {
+  background-color: rgb(2, 80, 187);
+  color: white;
+}
+
+.is-done {
+  opacity: 0.5;
+}
