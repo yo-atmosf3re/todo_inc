@@ -1,5 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, KeyboardEvent, useState } from 'react';
-import { idText } from 'typescript';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FilterValuesType } from './App';
 
 export type TaskType = {
