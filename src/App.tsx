@@ -1,8 +1,7 @@
-import { StringifyOptions } from 'querystring';
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
-import AddItemForm from './components/AddItemForm';
+import AddItemForm from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
 
 export type FilterValuesType = 'all' | 'complited' | 'active';
@@ -41,6 +40,16 @@ function App() {
         ;
     }
 
+    function changeTaskTitles(taskId: string, newTitle: string, todolistId: string) {
+        let tasks = tasksObj[todolistId];
+        let task = tasks.find(t => t.id === taskId)
+        if (task) {
+            task.title = newTitle;
+            setTasks({ ...tasksObj })
+        }
+        ;
+    }
+
     function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id == todolistId)
         if (todolist) {
@@ -54,6 +63,14 @@ function App() {
         setTodolists(filteredTodolist);
         delete tasksObj[todolistId];
         setTasks({ ...tasksObj });
+    }
+
+    function changeTodolistTitle(id: string, newTitle: string) {
+        const todolist = todolists.find(tl => tl.id === id)
+        if (todolist) {
+            todolist.title = newTitle;
+            setTodolists([...todolists]);
+        }
     }
 
     let todolistTheId1 = v1(); let todolistTheId2 = v1();
@@ -104,6 +121,8 @@ function App() {
                         tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false);
                     }
                     return <Todolist
+                        changeTodolistTitle={changeTodolistTitle}
+                        changeTaskTitle={changeTaskTitles}
                         key={tl.id}
                         id={tl.id}
                         title={tl.title}
