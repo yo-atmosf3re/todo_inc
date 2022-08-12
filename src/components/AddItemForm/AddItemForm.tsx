@@ -1,5 +1,7 @@
-import { Button, TextField } from "@mui/material"
+import { Button, IconButton, TextField, Stack } from "@mui/material"
 import React, { useState, ChangeEvent, KeyboardEvent } from "react"
+import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
+
 
 export type AddItemFormPropsType = {
    addItem: (title: string) => void
@@ -32,7 +34,11 @@ function AddItemForm(props: AddItemFormPropsType) {
          onChange={onNewTitleChangeHandler}
          onKeyPress={onKeyPressHandler}
          error={!!error} helperText={error} label={'Type value'} size='small' id="outlined-search" type="search" />
-      <Button size="large" color={'primary'} variant={"contained"} onClick={addTask} className={'button-plus'}>+</Button>
+
+      <IconButton onClick={addTask} color={'primary'} className={'button-plus'}>
+         <AddBoxSharpIcon />
+      </IconButton>
+
    </div>);
 }
 

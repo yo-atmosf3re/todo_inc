@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material';
+import { Button, Checkbox, IconButton } from '@mui/material';
 import React, { ChangeEvent, useState } from 'react';
 import { FilterValuesType } from './App';
 import AddItemForm from './components/AddItemForm/AddItemForm';
@@ -47,7 +47,7 @@ export function Todolist(props: PropsType) {
             </IconButton>
             <AddItemForm id={props.id} addItem={addTask} />
          </h3>
-         <ul>
+         <div>
             {
                props.tasks.map(t => {
                   const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,19 +57,18 @@ export function Todolist(props: PropsType) {
                      props.changeTaskTitle(t.id, newValue, props.id)
                   }
                   const onRemoveHandler = () => props.removeTask(t.id, props.id)
-                  return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                     <input type="checkbox"
-                        onChange={onChangeStatusHandler}
+                  return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+                     <Checkbox onChange={onChangeStatusHandler}
                         checked={t.isDone} />
                      <EditableSpan onChange={onChangeTitleHandler} title={t.title} />
                      <IconButton onClick={onRemoveHandler}>
                         <DeleteIcon fontSize="small" />
                      </IconButton>
-                  </li>
+                  </div>
                }
                )
             }
-         </ul>
+         </div>
          <div>
             <Button variant={props.filter === 'all' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
             <Button variant={props.filter === 'active' ? 'contained' : 'text'} onClick={onActiveClickHandler}>Active</Button>
