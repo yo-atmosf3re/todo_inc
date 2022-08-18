@@ -105,21 +105,20 @@ function App() {
     return (
         <div className="App" >
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
+                <AppBar color='primary' position="relative">
                     <Toolbar>
                         <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
+                            sx={{ mr: 5 }}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
                             Todolist
                         </Typography>
-                        <Button color="inherit">Login</Button>
+                        {/* <Button color="inherit">Login</Button> */}
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -158,7 +157,6 @@ function App() {
                     }
                 </Grid>
             </Container>
-            <header></header>
         </div >
     );
 }
