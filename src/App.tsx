@@ -6,7 +6,7 @@ import AddItemForm from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export type FilterValuesType = 'all' | 'complited' | 'active';
+export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistTypes = {
     id: string,
     title: string,
@@ -130,7 +130,7 @@ function App() {
                     {
                         todolists.map((tl) => {
                             let tasksForTodolist = tasksObj[tl.id];
-                            if (tl.filter === 'complited') {
+                            if (tl.filter === 'completed') {
                                 tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true);
                             }
                             if (tl.filter === 'active') {
