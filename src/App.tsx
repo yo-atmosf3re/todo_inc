@@ -1,10 +1,11 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button, Container, Grid, Paper } from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, Container, Grid, Paper, createTheme, ThemeProvider } from '@mui/material';
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
+import { cyan } from '@mui/material/colors';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistTypes = {
@@ -102,8 +103,17 @@ function App() {
         })
     }
 
+    const theme = createTheme({
+        palette: {
+            primary: cyan,
+            secondary: {
+                main: '#80deea',
+            },
+        },
+    })
+
     return (
-        <div className="App" >
+        <div className="App" ><ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar color='primary' position="relative">
                     <Toolbar>
@@ -157,6 +167,7 @@ function App() {
                     }
                 </Grid>
             </Container>
+        </ThemeProvider>
         </div >
     );
 }
