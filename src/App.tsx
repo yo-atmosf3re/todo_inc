@@ -71,6 +71,7 @@ function App() {
             setTodolists([...todolists]);
         }
     }
+
     let todolistTheId1 = v1(); let todolistTheId2 = v1();
     let [todolists, setTodolists] = useState<Array<TodolistTypes>>([
         { id: todolistTheId1, title: 'What to learn?', filter: 'all' },
@@ -92,6 +93,7 @@ function App() {
             { id: v1(), title: "Food", isDone: false },
         ]
     })
+
     function addTodolist(title: string) {
         let todolist: TodolistTypes = {
             id: v1(),
@@ -120,9 +122,9 @@ function App() {
                 <AppBar color='primary' position="relative">
                     <Toolbar>
                         <IconButton
-                            size="large"
+                            size="medium"
                             edge="start"
-                            color="inherit"
+                            color="default"
                             sx={{ mr: 5 }}
                         >
                             <MenuIcon />
