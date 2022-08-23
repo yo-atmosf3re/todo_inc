@@ -118,7 +118,7 @@ function App() {
 
     return (
         <div className="App" ><ThemeProvider theme={theme}>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 2 }}>
                 <AppBar color='primary' position="relative">
                     <Toolbar>
                         <IconButton
@@ -132,7 +132,6 @@ function App() {
                         <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
                             Todolist
                         </Typography>
-                        {/* <Button color="inherit">Login</Button> */}
                     </Toolbar>
                 </AppBar>
             </Box>
