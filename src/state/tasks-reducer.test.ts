@@ -2,7 +2,7 @@ import { removeTaskAC, tasksReducer, addTaskAC, changeStatusTaskAC, changeTaskTi
 import { TasksStateType } from '../App';
 import { addTodolistAC, removeTodolistAC } from './todolists-reducer';
 
-test.skip('correct task should be deleted from correct array', () => {
+test('correct task should be deleted from correct array', () => {
    const startState: TasksStateType = {
       "todolistId1": [
          { id: "1", title: "CSS", isDone: false },
@@ -24,7 +24,7 @@ test.skip('correct task should be deleted from correct array', () => {
    expect(endState['todolistId2'].length).toBe(2)
 });
 
-test.skip('tasks should be added correctly', () => {
+test('tasks should be added correctly', () => {
    const startState: TasksStateType = {
       "todolistId1": [
          { id: "1", title: "CSS", isDone: false },
@@ -48,7 +48,7 @@ test.skip('tasks should be added correctly', () => {
    expect(endState['todolistId2'][0].isDone).toBe(false)
 })
 
-test.skip('status of tasks should be changed correctly', () => {
+test('status of tasks should be changed correctly', () => {
    const startState: TasksStateType = {
       "todolistId1": [
          { id: "1", title: "CSS", isDone: false },
@@ -71,7 +71,7 @@ test.skip('status of tasks should be changed correctly', () => {
    expect(endState['todolistId2'][1].isDone).toBeFalsy()
 })
 
-test.skip('task title should be changed correctly', () => {
+test('task title should be changed correctly', () => {
    const startState: TasksStateType = {
       "todolistId1": [
          { id: "1", title: "CSS", isDone: false },
@@ -92,7 +92,7 @@ test.skip('task title should be changed correctly', () => {
    expect(endState['todolistId1'][1].title).toBe('JS')
 })
 
-test.skip('new property with new array should be added when new todolist is added', () => {
+test('new property with new array should be added when new todolist is added', () => {
    const startState: TasksStateType = {
       "todolistId1": [
          { id: "1", title: "CSS", isDone: false },
