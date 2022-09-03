@@ -3,6 +3,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ReactDOM from 'react-dom/client';
+import AppWithReducers from './AppWithReducers';
 
 
 const root = ReactDOM.createRoot(
@@ -10,7 +11,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 
-   <App />
+   <AppWithReducers />
 
 );
 
