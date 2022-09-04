@@ -20,6 +20,7 @@ export type TasksStateType = {
 }
 
 function AppWithReducers() {
+    let todolistTheId1 = v1(); let todolistTheId2 = v1();
     let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
         { id: todolistTheId1, title: 'What to learn?', filter: 'all' },
         { id: todolistTheId2, title: 'What to buy?', filter: 'all' },
@@ -67,7 +68,6 @@ function AppWithReducers() {
     function changeTodolistTitle(id: string, newTitle: string) {
         dispatchToTodolistsReducer(changeTodolistTitleAC(id, newTitle))
     }
-    let todolistTheId1 = v1(); let todolistTheId2 = v1();
     function addTodolist(title: string) {
         const action = addTodolistAC(title)
         dispatchToTodolistsReducer(action)
