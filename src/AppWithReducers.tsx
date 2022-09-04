@@ -84,20 +84,6 @@ function AppWithReducers() {
         },
     })
 
-
-
-
-
-
-
-    // 23:00 доделать тудулист
-
-
-
-
-
-
-
     return (
         <div className="App" >
             <ThemeProvider theme={theme}>
