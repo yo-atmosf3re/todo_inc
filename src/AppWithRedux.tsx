@@ -1,6 +1,5 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Container, Grid, Paper, createTheme, ThemeProvider } from '@mui/material';
 import React, { useCallback } from 'react';
-import { v1 } from 'uuid';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
@@ -29,20 +28,20 @@ function AppWithRedux() {
     // Todolist's callback
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(changeTodolistFilterAC(todolistId, value))
-    }, [])
+    }, [dispatch])
     const removeTodolist = useCallback((todolistId: string) => {
         const action = removeTodolistAC(todolistId)
         dispatch(action)
-    }, [])
+    }, [dispatch])
     const changeTodolistTitle = useCallback((id: string, newTitle: string) => {
         dispatch(changeTodolistTitleAC(id, newTitle))
-    }, [])
+    }, [dispatch])
     const addTodolist = useCallback((title: string) => {
         const action = addTodolistAC(title)
         dispatch(action)
-    }, [])
+    }, [dispatch])
 
-    // MUI theme
+    // * MUI theme
     const theme = createTheme({
         palette: {
             primary: cyan,

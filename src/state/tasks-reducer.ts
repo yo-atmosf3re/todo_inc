@@ -26,7 +26,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       case 'REMOVE-TASK': {
          // debugger
          const stateCopy = { ...state }
-         const tasks = stateCopy[action.todolistId];
+         const tasks = state[action.todolistId];
          const filteredTasks = tasks.filter(t => t.id !== action.taskId);
          stateCopy[action.todolistId] = filteredTasks;
          // stateCopy[action.todolistId] = [...tasks]

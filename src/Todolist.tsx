@@ -28,18 +28,19 @@ export const Todolist = React.memo(function (props: PropsType) {
    const dispatch = useDispatch();
    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
 
-   const onAllClickHandler = () => props.changeFilter('all', props.id)
-   const onActiveClickHandler = () => props.changeFilter('active', props.id)
-   const onComplitedClickHandler = () => props.changeFilter('completed', props.id)
-   const removeTodolist = () => {
+   const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.changeFilter, props.id])
+   const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.changeFilter, props.id])
+   const onComplitedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.changeFilter, props.id])
+
+   const removeTodolist = useCallback(() => {
       props.removeTodolist(props.id)
-   }
-   const changeTodolistTitle = (newTitle: string) => {
+   }, [props.removeTodolist, props.id])
+   const changeTodolistTitle = useCallback((newTitle: string) => {
       props.changeTodolistTitle(props.id, newTitle);
-   }
+   }, [props.changeTodolistTitle, props.id])
    const addTask = useCallback((title: string) => {
       dispatch(addTaskAC(title, props.id))
-   }, [])
+   }, [dispatch])
 
    let allTodolistTasks = tasks;
    let tasksForTodolist = allTodolistTasks;
