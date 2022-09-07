@@ -1,5 +1,5 @@
 import { Button, Checkbox, IconButton } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { FilterValuesType, TasksStateType } from './App';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import EditableSpan from './components/EditableSpan/EditableSpan';
@@ -23,7 +23,8 @@ export type PropsType = {
    changeTodolistTitle: (newTitle: string, id: string) => void
 }
 
-export function Todolist(props: PropsType) {
+export const Todolist = React.memo(function (props: PropsType) {
+   console.log('Todolist is called')
    const dispatch = useDispatch();
    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
 
@@ -36,6 +37,9 @@ export function Todolist(props: PropsType) {
    const changeTodolistTitle = (newTitle: string) => {
       props.changeTodolistTitle(props.id, newTitle);
    }
+   const addTask = useCallback((title: string) => {
+      dispatch(addTaskAC(title, props.id))
+   }, [])
 
    let allTodolistTasks = tasks;
    let tasksForTodolist = allTodolistTasks;
@@ -52,9 +56,7 @@ export function Todolist(props: PropsType) {
             <IconButton onClick={removeTodolist}>
                <DeleteIcon />
             </IconButton>
-            <AddItemForm id={props.id} addItem={(title) => {
-               dispatch(addTaskAC(title, props.id))
-            }} />
+            <AddItemForm id={props.id} addItem={addTask} />
          </h3>
          <div>
             {
@@ -86,7 +88,7 @@ export function Todolist(props: PropsType) {
          </div>
       </div >
    );
-}
+})
 
 
 
