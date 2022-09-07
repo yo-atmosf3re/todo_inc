@@ -24,10 +24,12 @@ const initialState: TasksStateType = {
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
    switch (action.type) {
       case 'REMOVE-TASK': {
+         // debugger
          const stateCopy = { ...state }
-         const tasks = state[action.todolistId];
+         const tasks = stateCopy[action.todolistId];
          const filteredTasks = tasks.filter(t => t.id !== action.taskId);
          stateCopy[action.todolistId] = filteredTasks;
+         // stateCopy[action.todolistId] = [...tasks]
          return stateCopy;
       }
       case 'ADD-TASK': {
@@ -46,6 +48,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
          if (task) {
             task.isDone = action.isDone;
          }
+         // stateCopy[action.todolistId] = [...tasks]
          return stateCopy
       }
       case 'CHANGE-TASK-TITLE': {
@@ -55,6 +58,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
          if (task) {
             task.title = action.newTitle;
          }
+         stateCopy[action.todolistId] = [...tasks]
          return stateCopy;
       }
       case 'ADD-TODOLIST': {
