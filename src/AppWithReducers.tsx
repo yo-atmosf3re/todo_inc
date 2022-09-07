@@ -85,7 +85,7 @@ function AppWithReducers() {
     })
 
     return (
-        <div className="App" >
+        <div >
             <ThemeProvider theme={theme}>
                 <Box sx={{ flexGrow: 2 }}>
                     <AppBar color='primary' position="relative">
@@ -120,7 +120,7 @@ function AppWithReducers() {
                                 }
                                 return <Grid item>
                                     <Paper elevation={1} style={{ padding: '10px' }}>
-                                        <Todolist
+                                        {/* <Todolist
                                             changeTodolistTitle={changeTodolistTitle}
                                             changeTaskTitle={changeTaskTitles}
                                             key={tl.id}
@@ -132,7 +132,7 @@ function AppWithReducers() {
                                             addTask={addTask}
                                             changeTaskStatus={changeStatus}
                                             filter={tl.filter}
-                                            removeTodolist={removeTodolist} />
+                                            removeTodolist={removeTodolist} /> */}
                                     </Paper>
                                 </Grid>
                             })

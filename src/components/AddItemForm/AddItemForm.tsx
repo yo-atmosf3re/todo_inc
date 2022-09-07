@@ -9,33 +9,43 @@ export type AddItemFormPropsType = {
 }
 
 function AddItemForm(props: AddItemFormPropsType) {
-   const [newTaskTitle, setNewTaskTitle] = useState('')
+   console.log('AddItemForm is called')
+   const [title, setTitle] = useState('')
    const [error, setError] = useState<string | null>(null)
-   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      setNewTaskTitle(e.currentTarget.value)
+
+   const addItem = () => {
+      if (title.trim() !== '') {
+         props.addItem(title.trim());
+         setTitle('')
+      } else {
+         setError('Title is required')
+      }
+   }
+   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.currentTarget.value)
    }
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-      setError(null);
+      if (error !== null) {
+         setError(null);
+      }
       if (e.charCode === 13) {
-         props.addItem(newTaskTitle);
-         setNewTaskTitle('')
+         props.addItem(title);
+         setTitle('')
       }
    }
-   const addTask = () => {
-      if (newTaskTitle.trim() !== '') {
-         props.addItem(newTaskTitle.trim());
-         setNewTaskTitle('')
-      } else {
-         setError('Field is required')
-      }
-   }
-   return (<div>
-      <TextField value={newTaskTitle}
-         onChange={onNewTitleChangeHandler}
-         onKeyPress={onKeyPressHandler}
-         error={!!error} helperText={error} label={'Type value'} size='small' id="outlined-search" type="search" />
 
-      <IconButton onClick={addTask} color={'primary'} className={'button-plus'}>
+   return (<div>
+      <TextField
+         value={title}
+         onChange={onChangeHandler}
+         onKeyPress={onKeyPressHandler}
+         error={!!error}
+         helperText={error}
+         label={'Type value'}
+         size='small'
+         id="outlined-search"
+         type="search" />
+      <IconButton onClick={addItem} color={'primary'} className={'button-plus'}>
          <AddBoxSharpIcon />
       </IconButton>
 
