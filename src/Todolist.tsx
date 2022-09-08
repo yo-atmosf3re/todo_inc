@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
+import Task from './components/Task/Task';
 
 export type TaskType = {
    id: string,
@@ -82,35 +83,6 @@ export const Todolist = React.memo(function (props: PropsType) {
       </div >
    );
 })
-
-type TaskPropsType = {
-   task: TaskType
-   todolistId: string
-   removeTask: (id: string, todolistId: string) => void
-   addTask: (title: string, todolistId: string) => void
-   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
-   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-}
-
-const Task = (props: TaskPropsType) => {
-   const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
-   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      props.changeStatus(props.task.id, e.currentTarget.checked, props.todolistId)
-   }
-   const onTitleChangeHandler = (newValue: string) => {
-      props.changeTaskTitle(props.task.id, newValue, props.todolistId)
-   }
-
-
-   return (<div key={props.todolistId} className={props.task.isDone ? 'is-done' : ''}>
-      <Checkbox onChange={onChangeHandler}
-         checked={props.task.isDone} />
-      <EditableSpan onChange={onTitleChangeHandler} title={props.task.title} />
-      <IconButton onClick={onClickHandler}>
-         <DeleteIcon fontSize="small" />
-      </IconButton>
-   </div>)
-}
 
 
 
