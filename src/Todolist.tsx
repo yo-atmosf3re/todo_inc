@@ -70,6 +70,7 @@ export const Todolist = React.memo(function (props: PropsType) {
                      // props.changeTaskTitle(t.id, newValue, props.id)
                   }
                   const onRemoveHandler = () => dispatch(removeTaskAC(t.id, props.id))
+
                   return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
                      <Checkbox onChange={onChangeStatusHandler}
                         checked={t.isDone} />
@@ -90,6 +91,31 @@ export const Todolist = React.memo(function (props: PropsType) {
       </div >
    );
 })
+
+type TaskPropsType = {
+   task: TaskType
+}
+
+const Task = (props: TaskPropsType) => {
+   const dispatch = useDispatch();
+   const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      dispatch(changeStatusTaskAC(props.task.id, e.currentTarget.checked, props.task.id))
+   }
+   const onChangeTitleHandler = (newValue: string) => {
+      dispatch(changeTaskTitleAC(props.task.id, newValue, props.task.id));
+      // props.changeTaskTitle(t.id, newValue, props.id)
+   }
+   const onRemoveHandler = () => dispatch(removeTaskAC(props.task.id, props.task.id))
+
+   return (<div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
+      <Checkbox onChange={onChangeStatusHandler}
+         checked={props.task.isDone} />
+      <EditableSpan onChange={onChangeTitleHandler} title={props.task.title} />
+      <IconButton onClick={onRemoveHandler}>
+         <DeleteIcon fontSize="small" />
+      </IconButton>
+   </div>)
+}
 
 
 
