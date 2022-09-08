@@ -8,6 +8,7 @@ import { cyan } from '@mui/material/colors';
 import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from './state/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
+import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistTypes = {
@@ -24,6 +25,19 @@ function AppWithRedux() {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistTypes>>(state => state.todolists);
 
+    // ? Task's callback
+    function removeTask(id: string, todolistId: string) {
+        dispatch(removeTaskAC(id, todolistId))
+    }
+    function addTask(title: string, todolistId: string) {
+        dispatch(addTaskAC(title, todolistId))
+    }
+    function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
+        dispatch(changeStatusTaskAC(taskId, isDone, todolistId))
+    }
+    function changeTaskTitles(taskId: string, newTitle: string, todolistId: string) {
+        dispatch(changeTaskTitleAC(taskId, newTitle, todolistId));
+    }
 
     // Todolist's callback
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
@@ -81,6 +95,10 @@ function AppWithRedux() {
                                 return <Grid item>
                                     <Paper elevation={1} style={{ padding: '10px' }}>
                                         <Todolist
+                                            removeTask={removeTask}
+                                            addTask={addTask}
+                                            changeStatus={changeStatus}
+                                            changeTaskTitle={changeTaskTitles}
                                             changeTodolistTitle={changeTodolistTitle}
                                             key={tl.id}
                                             id={tl.id}

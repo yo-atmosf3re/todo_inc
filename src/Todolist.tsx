@@ -21,6 +21,10 @@ export type PropsType = {
    id: string
    removeTodolist: (todolistId: string) => void
    changeTodolistTitle: (newTitle: string, id: string) => void
+   removeTask: (id: string, todolistId: string) => void
+   addTask: (title: string, todolistId: string) => void
+   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
@@ -60,28 +64,15 @@ export const Todolist = React.memo(function (props: PropsType) {
             <AddItemForm id={props.id} addItem={addTask} />
          </h3>
          <div>
-            {
-               tasksForTodolist.map(t => {
-                  const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                     dispatch(changeStatusTaskAC(t.id, e.currentTarget.checked, props.id))
-                  }
-                  const onChangeTitleHandler = (newValue: string) => {
-                     dispatch(changeTaskTitleAC(t.id, newValue, props.id));
-                     // props.changeTaskTitle(t.id, newValue, props.id)
-                  }
-                  const onRemoveHandler = () => dispatch(removeTaskAC(t.id, props.id))
-
-                  return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
-                     <Checkbox onChange={onChangeStatusHandler}
-                        checked={t.isDone} />
-                     <EditableSpan onChange={onChangeTitleHandler} title={t.title} />
-                     <IconButton onClick={onRemoveHandler}>
-                        <DeleteIcon fontSize="small" />
-                     </IconButton>
-                  </div>
-               }
-               )
-            }
+            {tasksForTodolist.map(t => <Task
+               task={t}
+               todolistId={props.id}
+               key={t.id}
+               addTask={props.addTask}
+               changeStatus={props.changeStatus}
+               changeTaskTitle={props.changeTaskTitle}
+               removeTask={props.removeTask} />
+            )}
          </div>
          <div>
             <Button variant={props.filter === 'all' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
@@ -94,24 +85,28 @@ export const Todolist = React.memo(function (props: PropsType) {
 
 type TaskPropsType = {
    task: TaskType
+   todolistId: string
+   removeTask: (id: string, todolistId: string) => void
+   addTask: (title: string, todolistId: string) => void
+   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 const Task = (props: TaskPropsType) => {
-   const dispatch = useDispatch();
-   const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(changeStatusTaskAC(props.task.id, e.currentTarget.checked, props.task.id))
+   const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
+   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      props.changeStatus(props.task.id, e.currentTarget.checked, props.todolistId)
    }
-   const onChangeTitleHandler = (newValue: string) => {
-      dispatch(changeTaskTitleAC(props.task.id, newValue, props.task.id));
-      // props.changeTaskTitle(t.id, newValue, props.id)
+   const onTitleChangeHandler = (newValue: string) => {
+      props.changeTaskTitle(props.task.id, newValue, props.todolistId)
    }
-   const onRemoveHandler = () => dispatch(removeTaskAC(props.task.id, props.task.id))
 
-   return (<div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
-      <Checkbox onChange={onChangeStatusHandler}
+
+   return (<div key={props.todolistId} className={props.task.isDone ? 'is-done' : ''}>
+      <Checkbox onChange={onChangeHandler}
          checked={props.task.isDone} />
-      <EditableSpan onChange={onChangeTitleHandler} title={props.task.title} />
-      <IconButton onClick={onRemoveHandler}>
+      <EditableSpan onChange={onTitleChangeHandler} title={props.task.title} />
+      <IconButton onClick={onClickHandler}>
          <DeleteIcon fontSize="small" />
       </IconButton>
    </div>)
