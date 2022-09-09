@@ -26,8 +26,8 @@ export type ActionsType = RemoveTodolistActionType | AddTodolistActionType | Cha
 export let todolistTheId1 = v1(); export let todolistTheId2 = v1();
 
 const initialState: Array<TodolistTypes> = [
-   // { id: todolistTheId1, title: 'What to learn?', filter: 'all' },
-   // { id: todolistTheId2, title: 'What to buy?', filter: 'all' },
+   { id: todolistTheId1, title: 'What to learn?', filter: 'all' },
+   { id: todolistTheId2, title: 'What to buy?', filter: 'all' },
 ]
 
 export const todolistsReducer = (state: Array<TodolistTypes> = initialState, action: ActionsType): Array<TodolistTypes> => {

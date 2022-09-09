@@ -26,7 +26,7 @@ function AppWithRedux() {
     const todolists = useSelector<AppRootStateType, Array<TodolistTypes>>(state => state.todolists);
 
     // ? Task's callback
-    function removeTask(id: string, todolistId: string) {
+    function removeTask(todolistId: string, id: string) {
         dispatch(removeTaskAC(id, todolistId))
     }
     function addTask(title: string, todolistId: string) {

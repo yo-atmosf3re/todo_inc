@@ -21,7 +21,7 @@ const Task = React.memo((props: TaskPropsType) => {
    }, [props.changeStatus, props.task.id, props.todolistId])
    const onTitleChangeHandler = useCallback((newValue: string) => {
       props.changeTaskTitle(props.task.id, newValue, props.todolistId)
-   }, [])
+   }, [props.changeTaskTitle, props.task.id, props.todolistId])
 
 
    return (<div key={props.todolistId} className={props.task.isDone ? 'is-done' : ''}>

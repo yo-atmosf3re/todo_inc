@@ -24,22 +24,11 @@ const initialState: TasksStateType = {
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
    switch (action.type) {
       case 'REMOVE-TASK': {
-         debugger
-         // const stateCopy = { ...state }
-         // const tasks = stateCopy[action.todolistId];
-         // const filteredTasks = tasks.filter(t => t.id !== action.taskId);
-         // stateCopy[action.todolistId] = filteredTasks;
-         // return stateCopy;
-         // let todolistTasks = state[action.todolistId];
-         // state[action.todolistId] = todolistTasks.map(t => {
-         //    if (t.id === action.taskId) {
-         //       return t
-         //    }
-         // })
-         // return ({ ...state })
-
-         // todo ЧТО-ТО С ЭТИМ НУЖНО СДЕЛАТЬ, НЕ РАБОТАЕТ!
-         return state;
+         const stateCopy = { ...state }
+         const tasks = stateCopy[action.todolistId];
+         const filteredTasks = tasks.filter(t => t.id !== action.taskId);
+         stateCopy[action.todolistId] = filteredTasks;
+         return stateCopy;
       }
       case 'ADD-TASK': {
          let stateCopy = { ...state }
@@ -58,13 +47,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
          let todolistTasks = state[action.todolistId];
          state[action.todolistId] = todolistTasks.map(t => t.id === action.taskId ? { ...t, title: action.newTitle } : t);
          return ({ ...state })
-         // let todolistTasks = state[action.todolistId];
-         // let task = todolistTasks.find(t => t.id === action.taskId);
-         // if (task) {
-         //    task.title = action.newTitle
-         // }
-         // state[action.todolistId] = [...todolistTasks]
-         // return ({ ...state })
       }
       case 'ADD-TODOLIST': {
          return {
