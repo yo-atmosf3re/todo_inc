@@ -1,11 +1,14 @@
 import * as React from 'react';
 import AddItemForm from "../components/AddItemForm/AddItemForm";
+import { action } from '@storybook/addon-actions'
 
 export default {
    title: 'AddItemForm Component',
    component: AddItemForm
 }
 
+const callback = action('Button "add" was pressed inside the form')
+
 export const AddItemFormBaseExample = (props: any) => {
-   return <AddItemForm id='2' addItem={(title: string) => (alert(title))} />
+   return <AddItemForm id='2' addItem={callback} />
 }
