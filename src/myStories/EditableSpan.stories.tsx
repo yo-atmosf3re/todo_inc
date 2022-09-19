@@ -9,4 +9,5 @@ export default {
 
 const callback = action('Editable span has been changed to:')
 
-export const EditableSpanBaseExample = () => <EditableSpan title={'Example text'} onChange={callback} />
+export const EditableSpanBaseExample = () => <EditableSpan title={'Example text again'} onChange={callback} />
+
