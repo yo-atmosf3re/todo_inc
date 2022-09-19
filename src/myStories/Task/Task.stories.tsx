@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions'
-import Task from '../components/Task/Task';
+import Task from '../../components/Task/Task';
 
 export default {
    title: 'Task Component',
