@@ -7,8 +7,15 @@ const settings = {
    }
 }
 
+export type TodolistType = {
+   id: string
+   title: string
+   addedDate: string
+   orded: number
+}
+
 export const todolistsAPI = {
-   getTodolists: () => axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings),
+   getTodolists: () => axios.get<Array<TodolistType>>('https://social-network.samuraijs.com/api/1.1/todo-lists', settings),
    createTodolist: (title: string) => axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', { title }, settings),
    deleteTodolist: (id: string) => axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, settings),
    updateTodolist: (id: string, title: string) => axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, { title }, settings),

@@ -21,7 +21,7 @@ export const GetTodolists = () => {
             setState(res.data)
          })
    }, [])
-   return <div> {JSON.stringify(state)}</div>
+   return <div>{JSON.stringify(state)}</div>
 }
 export const CreateTodolist = () => {
    const [state, setState] = useState<any>(null)
@@ -37,7 +37,7 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      const todolistId = 'd1eae069-dcd6-4c4d-a175-6a3c77b47266'
+      const todolistId = 'aa30e3cc-902a-4355-a666-8ec633d286b8'
       todolistsAPI.deleteTodolist(todolistId)
          .then((res) => {
             setState(res.data)
@@ -49,10 +49,8 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      const todolistId = 'd1eae069-dcd6-4c4d-a175-6a3c77b47266'
-      axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {
-         title: 'Test todolist title changed'
-      }, settings)
+      const todolistId = '034ecc54-7b58-495e-9576-bfce42f3b131'
+      todolistsAPI.updateTodolist(todolistId, 'Updating todolist which the refactoring code')
          .then((res) => {
             setState(res.data)
          })
