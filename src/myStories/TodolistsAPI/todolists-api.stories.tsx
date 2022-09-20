@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { todolistsAPI } from '../../api/todolists-API'
 
 export default {
    title: 'API'
@@ -15,7 +16,7 @@ const settings = {
 export const GetTodolists = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
+      todolistsAPI.getTodolists()
          .then((res) => {
             setState(res.data)
          })
@@ -25,11 +26,8 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {
-         title: 'Test todolist'
-      }, settings)
+      todolistsAPI.createTodolist('New todolist which the created with refactored code')
          .then((res) => {
-            debugger
             setState(res.data)
          })
    }, [])
@@ -39,7 +37,8 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.delete('https://social-network.samuraijs.com/api/1.1/todo-lists/742d37f2-2d27-4daf-869d-cc993642c56e', settings)
+      const todolistId = 'd1eae069-dcd6-4c4d-a175-6a3c77b47266'
+      todolistsAPI.deleteTodolist(todolistId)
          .then((res) => {
             setState(res.data)
          })
@@ -50,11 +49,11 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {
-         title: 'Test todolist'
+      const todolistId = 'd1eae069-dcd6-4c4d-a175-6a3c77b47266'
+      axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {
+         title: 'Test todolist title changed'
       }, settings)
          .then((res) => {
-            debugger
             setState(res.data)
          })
    }, [])
