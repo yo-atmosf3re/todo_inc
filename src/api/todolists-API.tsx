@@ -6,6 +6,10 @@ const settings = {
       "API-KEY": "4e3f5b5e-2baf-457b-9c14-722f665306af"
    }
 }
+const instance = axios.create({
+   baseURL: `https://social-network.samuraijs.com/api/1.1/`,
+   ...settings
+})
 
 export type TodolistType = {
    id: string
@@ -21,25 +25,48 @@ type CreateTodolistResponseType = {
       item: TodolistType
    }
 }
-type DeleteTodolistResponseType = {
+export type ResponseType<D = {}> = {
    resultCode: number
    messages: Array<string>
-   fieldsErrors: Array<string>
-   data: {}
+   data: D
 }
-type UpdateTodolistResponseType = {
+export type TaskType = {
+   description: string
+   title: string
+   completed: boolean
+   status: number
+   startDate: string
+   deadline: string
+   id: string
+   todoListId: string
+   order: number
+   addedDate: string
+}
+export type UpdateTaskType = {
+   title: string
+   description: string
+   completed: boolean
+   status: number
+   priority: number
+   startDate: string
+   deadline: string
+}
+export type GetTasksResponseType = {
+   totalCount: number
+   error: null | string
+   items: TaskType[]
+}
+export type DeleteTasksResponseType = {
    resultCode: number
    messages: Array<string>
-   fieldsErrors: Array<string>
    data: {}
 }
-
-
-
 
 export const todolistsAPI = {
-   getTodolists: () => axios.get<Array<TodolistType>>('https://social-network.samuraijs.com/api/1.1/todo-lists', settings),
-   createTodolist: (title: string) => axios.post<CreateTodolistResponseType>('https://social-network.samuraijs.com/api/1.1/todo-lists', { title }, settings),
-   deleteTodolist: (id: string) => axios.delete<DeleteTodolistResponseType>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, settings),
-   updateTodolist: (id: string, title: string) => axios.put<UpdateTodolistResponseType>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, { title }, settings),
+   getTodolists: () => instance.get<Array<TodolistType>>('todo-lists'),
+   createTodolist: (title: string) => instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', { title }),
+   deleteTodolist: (id: string) => instance.delete<ResponseType>(`todo-lists/${id}`),
+   updateTodolist: (id: string, title: string) => instance.put<ResponseType>(`todo-lists/${id}`, { title }),
+   getTasks: (todolistId: string) => instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`),
+   deleteTasks: (todolistId: string, taskId: string) => instance.delete<DeleteTasksResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`),
 }
