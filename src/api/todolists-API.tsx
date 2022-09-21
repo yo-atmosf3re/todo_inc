@@ -30,7 +30,7 @@ export type ResponseType<D = {}> = {
    messages: Array<string>
    data: D
 }
-export type TaskType = {
+export type TaskEntityType = {
    description: string
    title: string
    completed: boolean
@@ -42,7 +42,7 @@ export type TaskType = {
    order: number
    addedDate: string
 }
-export type UpdateTaskType = {
+export type UpdateTaskModelType = {
    title: string
    description: string
    completed: boolean
@@ -54,7 +54,7 @@ export type UpdateTaskType = {
 export type GetTasksResponseType = {
    totalCount: number
    error: null | string
-   items: TaskType[]
+   items: TaskEntityType[]
 }
 export type DeleteTasksResponseType = {
    resultCode: number
@@ -67,6 +67,9 @@ export const todolistsAPI = {
    createTodolist: (title: string) => instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', { title }),
    deleteTodolist: (id: string) => instance.delete<ResponseType>(`todo-lists/${id}`),
    updateTodolist: (id: string, title: string) => instance.put<ResponseType>(`todo-lists/${id}`, { title }),
+
    getTasks: (todolistId: string) => instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`),
    deleteTasks: (todolistId: string, taskId: string) => instance.delete<DeleteTasksResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`),
+   createTasks: (todolistId: string) => instance.post(`todo-lists/${todolistId}/tasks`),
+   updateTasks: (todolistId: string, taskId: string, model: UpdateTaskModelType) => instance.put(`todo-lists/${todolistId}/tasks/${taskId}`, { model }),
 }
