@@ -2,15 +2,15 @@ import { Box, AppBar, Toolbar, IconButton, Typography, Container, Grid, Paper, c
 import React, { useCallback } from 'react';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
-import { TaskType, Todolist } from './Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from './state/todolists-reducer';
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC } from './state/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
+import { Todolist } from './Todolist';
+import { TaskStatuses, TaskType } from './api/todolists-API';
 
-export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistTypes = {
     id: string,
     title: string,
@@ -34,8 +34,8 @@ function AppWithRedux() {
     function addTask(title: string, todolistId: string) {
         dispatch(addTaskAC(title, todolistId))
     }
-    function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
-        dispatch(changeStatusTaskAC(taskId, isDone, todolistId))
+    function changeStatus(taskId: string, status: TaskStatuses, todolistId: string) {
+        dispatch(changeStatusTaskAC(taskId, status, todolistId))
     }
     function changeTaskTitles(taskId: string, newTitle: string, todolistId: string) {
         dispatch(changeTaskTitleAC(taskId, newTitle, todolistId));

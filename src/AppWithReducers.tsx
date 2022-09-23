@@ -3,18 +3,13 @@ import React, { useReducer } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
-import { TaskType, Todolist } from './Todolist';
+import { Todolist } from './Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC, todolistsReducer } from './state/todolists-reducer';
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC, todolistsReducer } from './state/todolists-reducer';
 import { addTaskAC, changeStatusTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './state/tasks-reducer';
+import { TaskPriorities, TaskStatuses, TaskType } from './api/todolists-API';
 
-export type FilterValuesType = 'all' | 'completed' | 'active';
-export type TodolistTypes = {
-    id: string,
-    title: string,
-    filter: FilterValuesType,
-}
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -22,23 +17,23 @@ export type TasksStateType = {
 function AppWithReducers() {
     let todolistTheId1 = v1(); let todolistTheId2 = v1();
     let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
-        { id: todolistTheId1, title: 'What to learn?', filter: 'all' },
-        { id: todolistTheId2, title: 'What to buy?', filter: 'all' },
+        { id: todolistTheId1, title: 'What to learn?' },
+        { id: todolistTheId2, title: 'What to buy?' },
     ]);
     let [tasksObj, dispatchToTasksReducer] = useReducer(tasksReducer, {
         [todolistTheId1]: [
-            { id: v1(), title: "HTML&CSS", isDone: true },
-            { id: v1(), title: "JS", isDone: true },
-            { id: v1(), title: "ReactJS", isDone: false },
-            { id: v1(), title: "Redux", isDone: false },
-            { id: v1(), title: "GraphQL", isDone: false },
+            { id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "JS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "ReactJS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Redux", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "GraphQL", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
         ],
         [todolistTheId2]: [
-            { id: v1(), title: "Bread", isDone: true },
-            { id: v1(), title: "Milk", isDone: true },
-            { id: v1(), title: "Book", isDone: false },
-            { id: v1(), title: "Cigarettes", isDone: false },
-            { id: v1(), title: "Food", isDone: false },
+            { id: v1(), title: "Bread", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Milk", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Book", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Cigarettes", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Food", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
         ]
     })
 

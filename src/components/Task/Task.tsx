@@ -1,16 +1,17 @@
 import { Checkbox, IconButton } from '@mui/material';
 import * as React from 'react';
 import { ChangeEvent, useCallback } from 'react';
-import { TaskType } from '../../Todolist';
 import EditableSpan from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TaskType, TaskStatuses } from '../../api/todolists-API';
+
 
 export type TaskPropsType = {
    task: TaskType
    todolistId: string
    removeTask: (id: string, todolistId: string) => void
    addTask: (title: string, todolistId: string) => void
-   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+   changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
@@ -24,9 +25,9 @@ const Task = React.memo((props: TaskPropsType) => {
    }, [props.changeTaskTitle, props.task.id, props.todolistId])
 
 
-   return (<div key={props.todolistId} className={props.task.isDone ? 'is-done' : ''}>
+   return (<div key={props.todolistId} className={props.task.status ? 'is-done' : ''}>
       <Checkbox onChange={onChangeHandler}
-         checked={props.task.isDone} />
+         checked={props.task.status} />
       <EditableSpan onChange={onTitleChangeHandler} title={props.task.title} />
       <IconButton onClick={onClickHandler}>
          <DeleteIcon fontSize="small" />

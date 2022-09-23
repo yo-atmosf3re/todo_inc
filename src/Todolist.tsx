@@ -8,12 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
 import Task from './components/Task/Task';
-
-export type TaskType = {
-   id: string,
-   title: string,
-   isDone: boolean,
-}
+import { TaskStatuses, TaskType } from './api/todolists-API';
 
 export type PropsType = {
    title: string,
@@ -24,7 +19,7 @@ export type PropsType = {
    changeTodolistTitle: (newTitle: string, id: string) => void
    removeTask: (id: string, todolistId: string) => void
    addTask: (title: string, todolistId: string) => void
-   changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+   changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
@@ -50,10 +45,10 @@ export const Todolist = React.memo(function (props: PropsType) {
    let allTodolistTasks = tasks;
    let tasksForTodolist = allTodolistTasks;
    if (props.filter === 'active') {
-      tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false)
+      tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.New)
    }
    if (props.filter === 'completed') {
-      tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true)
+      tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.Completed)
    }
 
    return (
