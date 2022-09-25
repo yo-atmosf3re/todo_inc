@@ -22,18 +22,18 @@ function AppWithReducers() {
     ]);
     let [tasksObj, dispatchToTasksReducer] = useReducer(tasksReducer, {
         [todolistTheId1]: [
-            { id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "JS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "ReactJS", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "Redux", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "GraphQL", status: TaskStatuses.Completed, todolistId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "ReactJS", status: TaskStatuses.Completed, todoListId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Redux", status: TaskStatuses.Completed, todoListId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "GraphQL", status: TaskStatuses.Completed, todoListId: todolistTheId1, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
         ],
         [todolistTheId2]: [
-            { id: v1(), title: "Bread", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "Milk", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "Book", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "Cigarettes", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
-            { id: v1(), title: "Food", status: TaskStatuses.Completed, todolistId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Bread", status: TaskStatuses.Completed, todoListId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Book", status: TaskStatuses.Completed, todoListId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Cigarettes", status: TaskStatuses.Completed, todoListId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
+            { id: v1(), title: "Food", status: TaskStatuses.Completed, todoListId: todolistTheId2, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low },
         ]
     })
 
@@ -44,8 +44,8 @@ function AppWithReducers() {
     function addTask(title: string, todolistId: string) {
         dispatchToTasksReducer(addTaskAC(title, todolistId))
     }
-    function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
-        dispatchToTasksReducer(changeStatusTaskAC(taskId, isDone, todolistId))
+    function changeStatus(taskId: string, status: TaskStatuses, todolistId: string) {
+        dispatchToTasksReducer(changeStatusTaskAC(taskId, status, todolistId))
     }
     function changeTaskTitles(taskId: string, newTitle: string, todolistId: string) {
         dispatchToTasksReducer(changeTaskTitleAC(taskId, newTitle, todolistId));
