@@ -4,7 +4,7 @@ import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC } from './state/todolists-reducer';
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC, TodolistDomainType } from './state/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
@@ -25,7 +25,7 @@ export type TasksStateType = {
 function AppWithRedux() {
     console.log("App is called")
     const dispatch = useDispatch();
-    const todolists = useSelector<AppRootStateType, Array<TodolistTypes>>(state => state.todolists);
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
 
     // ? Task's callback
     function removeTask(todolistId: string, id: string) {
