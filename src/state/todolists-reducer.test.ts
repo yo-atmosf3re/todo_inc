@@ -1,14 +1,14 @@
 import { FilterValuesType, TodolistTypes } from './../App';
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, todolistsReducer } from './todolists-reducer';
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, TodolistDomainType, todolistsReducer } from './todolists-reducer';
 import { v1 } from 'uuid';
 
 test.skip('correct todolist should be removed', () => {
    let todolistId1 = v1();
    let todolistId2 = v1();
 
-   const startState: Array<TodolistTypes> = [
-      { id: todolistId1, title: "What to learn", filter: "all" },
-      { id: todolistId2, title: "What to buy", filter: "all" }
+   const startState: Array<TodolistDomainType> = [
+      { id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0, },
+      { id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0, }
    ]
 
    const endState = todolistsReducer(startState, { type: 'REMOVE-TODOLIST', id: todolistId1 })
@@ -23,9 +23,9 @@ test.skip('correct todolist should be added', () => {
 
    let newTodolistTitle = "New Todolist";
 
-   const startState: Array<TodolistTypes> = [
-      { id: todolistId1, title: "What to learn", filter: "all" },
-      { id: todolistId2, title: "What to buy", filter: "all" }
+   const startState: Array<TodolistDomainType> = [
+      { id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0, },
+      { id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0, }
    ]
 
    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
@@ -41,9 +41,9 @@ test.skip('correct todolist should change its name', () => {
 
    let newTodolistTitle = "New Todolist";
 
-   const startState: Array<TodolistTypes> = [
-      { id: todolistId1, title: "What to learn", filter: "all" },
-      { id: todolistId2, title: "What to buy", filter: "all" }
+   const startState: Array<TodolistDomainType> = [
+      { id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0, },
+      { id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0, }
    ]
 
    const action = {
@@ -64,9 +64,9 @@ test.skip('correct filter of todolist should be changed', () => {
 
    let newFilter: FilterValuesType = "completed";
 
-   const startState: Array<TodolistTypes> = [
-      { id: todolistId1, title: "What to learn", filter: "all" },
-      { id: todolistId2, title: "What to buy", filter: "all" }
+   const startState: Array<TodolistDomainType> = [
+      { id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0, },
+      { id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0, }
    ]
 
    const action = {
