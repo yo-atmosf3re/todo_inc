@@ -6,18 +6,9 @@ import AddItemForm from './components/AddItemForm/AddItemForm';
 import { Todolist } from './Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
-import { TodolistDomainType } from './state/todolists-reducer';
-import { TaskPriorities, TaskStatuses, TaskType } from './api/todolists-API';
-
-export type FilterValuesType = 'all' | 'completed' | 'active';
-export type TodolistTypes = {
-    id: string,
-    title: string,
-    filter: FilterValuesType,
-}
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+import { FilterValuesType, TodolistDomainType } from './store/todolists-reducer';
+import { TaskPriorities, TaskStatuses } from './api/todolists-API';
+import { TasksStateType } from './App.types';
 
 function App() {
     console.log('App is called')

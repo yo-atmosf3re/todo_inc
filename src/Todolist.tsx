@@ -1,14 +1,14 @@
-import { Button, Checkbox, IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import React, { ChangeEvent, useCallback, useState } from 'react';
-import { FilterValuesType, TasksStateType } from './App';
-import AddItemForm from './components/AddItemForm/AddItemForm';
 import EditableSpan from './components/EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './state/store';
-import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
+import { AppRootStateType } from './store/store';
+import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './store/tasks-reducer';
 import Task from './components/Task/Task';
 import { TaskStatuses, TaskType } from './api/todolists-API';
+import { FilterValuesType } from './App.types';
+import AddItemForm from './components/AddItemForm/AddItemForm';
 
 export type PropsType = {
    title: string,

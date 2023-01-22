@@ -1,45 +1,51 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Container, Grid, Paper, createTheme, ThemeProvider } from '@mui/material';
-import React, { useCallback } from 'react';
+import {
+    Box, AppBar, Toolbar,
+    IconButton, Typography, Container,
+    Grid, Paper, createTheme,
+    ThemeProvider
+} from '@mui/material';
+import React, { useCallback, useEffect } from 'react';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
-import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC, TodolistDomainType } from './state/todolists-reducer';
+import {
+    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
+    fetchTodolistsTC,
+    FilterValuesType, removeTodolistAC, setTodosAC, TodolistDomainType
+} from './store/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './state/store';
-import { removeTaskAC, addTaskAC, changeStatusTaskAC, changeTaskTitleAC } from './state/tasks-reducer';
+import { AppRootStateType } from './store/store';
+import {
+    removeTaskAC, addTaskAC, changeStatusTaskAC,
+    changeTaskTitleAC
+} from './store/tasks-reducer';
 import { Todolist } from './Todolist';
-import { TaskStatuses, TaskType } from './api/todolists-API';
+import { TaskStatuses } from './api/todolists-API';
 
-export type TodolistTypes = {
-    id: string,
-    title: string,
-    filter: FilterValuesType,
-}
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+// * MUI theme
+const THEME = createTheme({
+    palette: {
+        primary: cyan,
+        secondary: {
+            main: '#80deea',
+        },
+    },
+})
 
-
-
-function AppWithRedux() {
-    console.log("App is called")
+export const AppWithRedux = () => {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
 
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    }, [])
+
     // ? Task's callback
-    function removeTask(todolistId: string, id: string) {
-        dispatch(removeTaskAC(id, todolistId))
-    }
-    function addTask(title: string, todolistId: string) {
-        dispatch(addTaskAC(title, todolistId))
-    }
-    function changeStatus(taskId: string, status: TaskStatuses, todolistId: string) {
-        dispatch(changeStatusTaskAC(taskId, status, todolistId))
-    }
-    function changeTaskTitles(taskId: string, newTitle: string, todolistId: string) {
-        dispatch(changeTaskTitleAC(taskId, newTitle, todolistId));
-    }
+    const removeTask = (todolistId: string, id: string) => dispatch(removeTaskAC(id, todolistId))
+    const addTask = (title: string, todolistId: string) => dispatch(addTaskAC(title, todolistId))
+    const changeStatus = (taskId: string, status: TaskStatuses, todolistId: string) => dispatch(changeStatusTaskAC(taskId, status, todolistId))
+    const changeTaskTitles = (taskId: string, newTitle: string, todolistId: string) => dispatch(changeTaskTitleAC(taskId, newTitle, todolistId))
 
     // Todolist's callback
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
@@ -57,19 +63,9 @@ function AppWithRedux() {
         dispatch(action)
     }, [dispatch])
 
-    // * MUI theme
-    const theme = createTheme({
-        palette: {
-            primary: cyan,
-            secondary: {
-                main: '#80deea',
-            },
-        },
-    })
-
     return (
         <div >
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={THEME}>
                 <Box sx={{ flexGrow: 2 }}>
                     <AppBar color='primary' position="relative">
                         <Toolbar>
@@ -118,5 +114,3 @@ function AppWithRedux() {
         </div >
     );
 }
-
-export default AppWithRedux;
