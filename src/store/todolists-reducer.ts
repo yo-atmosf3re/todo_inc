@@ -92,8 +92,18 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 
 export const setTodosAC = (todolists: Array<TodolistType>): SetTodosActionType => ({ type: 'SET-TODOLISTS', todolists })
 
+// ! Добавить async в fetchTodolistsTC перед аргументом с dispatch;
+// ** Обновить код внутри fetchTodolistsTC, протестировать работу;
 export const fetchTodolistsTC = () => (dispatch: Dispatch<SetTodosActionType>) =>
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodosAC(res.data))
       })
+
+    // try {
+    //     const { data } = await todolistsAPI.getTodolists()
+    //     dispatch(setTodosAC(res.data))
+    //     console.log('Complited')
+    // } catch (error) {
+    //     console.log(error)
+    // }
