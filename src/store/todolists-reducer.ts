@@ -1,8 +1,7 @@
 import { todolistsAPI } from './../api/todolists-API';
 import { v1 } from "uuid"
 import { TodolistType } from "../api/todolists-API"
-import { TodolistTypes } from "../App.types"
-import { AnyAction, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 
 export type RemoveTodolistActionType = {
    type: 'REMOVE-TODOLIST'
@@ -33,7 +32,7 @@ export type TodolistDomainType = TodolistType & {
    filter: FilterValuesType
 }
 
-export type ActionsType = RemoveTodolistActionType | AddTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType | SetTodosActionType
+export type ActionsTodolistsReducerType = RemoveTodolistActionType | AddTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType | SetTodosActionType
 
 export const todolistTheId1 = v1();
 export const todolistTheId2 = v1();
@@ -43,7 +42,7 @@ const initialState: Array<TodolistDomainType> = [
    // { id: todolistTheId2, title: 'What to buy?', filter: 'all' },
 ]
 
-export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsTodolistsReducerType): Array<TodolistDomainType> => {
    switch (action.type) {
       case "REMOVE-TODOLIST": {
          return [...state.filter(tl => tl.id !== action.id)]
@@ -94,16 +93,20 @@ export const setTodosAC = (todolists: Array<TodolistType>): SetTodosActionType =
 
 // ! Добавить async в fetchTodolistsTC перед аргументом с dispatch;
 // ** Обновить код внутри fetchTodolistsTC, протестировать работу;
-export const fetchTodolistsTC = () => (dispatch: Dispatch<SetTodosActionType>) =>
-   todolistsAPI.getTodolists()
-      .then(res => {
-         dispatch(setTodosAC(res.data))
-      })
+export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolistsReducerType>) => {
+   try {
+      const { data } = await todolistsAPI.getTodolists()
+      dispatch(setTodosAC(data))
+      console.log(data)
+      console.log('Complited')
+   } catch (error) {
+      console.log(error)
+   }
+}
 
-    // try {
-    //     const { data } = await todolistsAPI.getTodolists()
-    //     dispatch(setTodosAC(res.data))
-    //     console.log('Complited')
-    // } catch (error) {
-    //     console.log(error)
-    // }
+fetchTodolistsTC()
+
+      // todolistsAPI.getTodolists()
+      //    .then(res => {
+      //       dispatch(setTodosAC(res.data))
+      //    })

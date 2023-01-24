@@ -12,10 +12,10 @@ import { cyan } from '@mui/material/colors';
 import {
     addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
     fetchTodolistsTC,
-    FilterValuesType, removeTodolistAC, setTodosAC, TodolistDomainType
+    FilterValuesType, removeTodolistAC, TodolistDomainType
 } from './store/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './store/store';
+import { AppDispatchType, AppRootStateType } from './store/store';
 import {
     removeTaskAC, addTaskAC, changeStatusTaskAC,
     changeTaskTitleAC
@@ -34,7 +34,7 @@ const THEME = createTheme({
 })
 
 export const AppWithRedux = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatchType>();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
 
     useEffect(() => {
@@ -90,7 +90,7 @@ export const AppWithRedux = () => {
                     <Grid container spacing={4}>
                         {
                             todolists.map((tl) => {
-                                return <Grid item>
+                                return <Grid key={tl.id} item>
                                     <Paper elevation={1} style={{ padding: '10px' }}>
                                         <Todolist
                                             removeTask={removeTask}
