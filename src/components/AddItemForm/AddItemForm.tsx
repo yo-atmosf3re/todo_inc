@@ -9,11 +9,11 @@ export type AddItemFormPropsType = {
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
-   console.log('AddItemForm is called')
+   // console.log('AddItemForm is called')
    const [title, setTitle] = useState('')
    const [error, setError] = useState<string | null>(null)
 
-   const addItem = () => {
+   const addItemHandler = () => {
       if (title.trim() !== '') {
          props.addItem(title.trim());
          setTitle('')
@@ -45,7 +45,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
          size='small'
          id="outlined-search"
          type="search" />
-      <IconButton onClick={addItem} color={'primary'} className={'button-plus'}>
+      <IconButton onClick={addItemHandler} color={'primary'} className={'button-plus'}>
          <AddBoxSharpIcon />
       </IconButton>
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import AddItemForm from './components/AddItemForm/AddItemForm';
-import { Todolist } from './Todolist';
+import { Todolist } from './components/Todolist';
 import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
 import { FilterValuesType, TodolistDomainType } from './store/todolists-reducer';
