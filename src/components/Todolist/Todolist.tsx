@@ -1,14 +1,12 @@
 import { Button, IconButton } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
-import EditableSpan from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatchType, AppRootStateType } from '../../store/store';
 import { addTaskAC, fetchTasksTC } from '../../store/tasks-reducer';
-import Task from '../Task/Task';
 import { TaskStatuses, TaskType } from '../../api/todolists-API';
-import AddItemForm from '../AddItemForm/AddItemForm';
 import { TodolistPropsType } from './Todolist.types';
+import { EditableSpan, AddItemForm, Task } from '..';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
    addTask, changeFilter, changeStatus,

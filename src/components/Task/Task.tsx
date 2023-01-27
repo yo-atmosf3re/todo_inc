@@ -1,21 +1,15 @@
 import { Checkbox, IconButton } from '@mui/material';
 import * as React from 'react';
 import { ChangeEvent, useCallback } from 'react';
-import EditableSpan from '../EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TaskType, TaskStatuses } from '../../api/todolists-API';
+import { TaskStatuses } from '../../api/todolists-API';
+import { TaskPropsType } from './Task.types';
+import { EditableSpan } from '..';
 
 
-export type TaskPropsType = {
-   task: TaskType
-   todolistId: string
-   removeTask: (id: string, todolistId: string) => void
-   addTask: (title: string, todolistId: string) => void
-   changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
-   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-}
 
-const Task = React.memo((props: TaskPropsType) => {
+
+export const Task = React.memo((props: TaskPropsType) => {
    const onClickHandler = useCallback(() => props.removeTask(props.task.id, props.todolistId), [props.removeTask, props.task.id, props.todolistId])
 
    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -40,5 +34,3 @@ const Task = React.memo((props: TaskPropsType) => {
          </IconButton>
       </div>)
 })
-
-export default Task;

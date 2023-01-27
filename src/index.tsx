@@ -1,10 +1,8 @@
 import React from 'react';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ReactDOM from 'react-dom/client';
-// import AppWithReducers from './AppWithReducers';
-import { AppWithRedux } from './AppWithRedux';
+import { AppWithRedux } from './App';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
