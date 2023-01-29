@@ -25,7 +25,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
          setError(null);
       }
       if (e.charCode === 13) {
-         addItem && addItem(title);
+         addItem(title);
          setTitle('')
       }
    }

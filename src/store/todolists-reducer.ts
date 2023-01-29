@@ -91,6 +91,7 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 
 export const setTodosAC = (todolists: Array<TodolistType>): SetTodosActionType => ({ type: 'SET-TODOLISTS', todolists })
 
+// ** Запрос всех тудулистов;
 export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolistsReducerType>) => {
    try {
       const { data } = await todolistsAPI.getTodolists()
@@ -100,7 +101,32 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
    }
 }
 
-      // todolistsAPI.getTodolists()
-      //    .then(res => {
-      //       dispatch(setTodosAC(res.data))
-      //    })
+// ** Удаление тудулиста;
+export const deleteTodolistTC = (todolistId: string) => async (dispatch: Dispatch) => {
+   try {
+      await todolistsAPI.deleteTodolist(todolistId)
+      dispatch(removeTodolistAC(todolistId))
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+// ** Изменение названия тудулиста;
+export const changeTodolistTitleTC = (todolistId: string, newTitle: string) => async (dispatch: Dispatch) => {
+   try {
+      await todolistsAPI.updateTodolist(todolistId, newTitle)
+      dispatch(changeTodolistTitleAC(todolistId, newTitle))
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+// ** Создание тудулиста;
+export const createTodolistTC = (title: string) => async (dispatch: Dispatch) => {
+   try {
+      await todolistsAPI.createTodolist(title)
+      dispatch(addTodolistAC(title))
+   } catch (error) {
+      console.log(error)
+   }
+}

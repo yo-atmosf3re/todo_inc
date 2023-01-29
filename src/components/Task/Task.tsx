@@ -1,6 +1,6 @@
 import { Checkbox, IconButton } from '@mui/material';
 import * as React from 'react';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskStatuses } from '../../api/todolists-API';
 import { TaskPropsType } from './Task.types';
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatchType } from '../../store/store';
 
 export const Task: React.FC<TaskPropsType> = React.memo(({
-   // addTask, 
+   addTask,
    changeStatus, changeTaskTitle,
    removeTask, task, todolistId
 }) => {

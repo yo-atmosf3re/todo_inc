@@ -10,9 +10,10 @@ export type TodolistPropsType = {
    changeTodolistTitle: (newTitle: string, id: string) => void
    removeTask: (id: string, todolistId: string) => void
    // ** Старое
-   // addTask: (title: string, todolistId: string) => void
+   addTask: (title: string, todolistId: string) => void
    // ** Новое
    // addTask: (task: TaskType) => void
+   tasks: TaskType[]
    changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
