@@ -1,4 +1,4 @@
-import { TaskStatuses } from "../../api/todolists-API"
+import { TaskStatuses, TaskType } from "../../api/todolists-API"
 import { FilterValuesType } from "../../App.types"
 
 export type TodolistPropsType = {
@@ -9,7 +9,10 @@ export type TodolistPropsType = {
    removeTodolist: (todolistId: string) => void
    changeTodolistTitle: (newTitle: string, id: string) => void
    removeTask: (id: string, todolistId: string) => void
-   addTask: (title: string, todolistId: string) => void
+   // ** Старое
+   // addTask: (title: string, todolistId: string) => void
+   // ** Новое
+   // addTask: (task: TaskType) => void
    changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }

@@ -3,20 +3,23 @@ import React, { useCallback, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatchType, AppRootStateType } from '../../store/store';
-import { addTaskAC, fetchTasksTC } from '../../store/tasks-reducer';
+import { addTaskAC, createTasksTC, fetchTasksTC } from '../../store/tasks-reducer';
 import { TaskStatuses, TaskType } from '../../api/todolists-API';
 import { TodolistPropsType } from './Todolist.types';
 import { EditableSpan, AddItemForm, Task } from '..';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
-   addTask, changeFilter, changeStatus,
+   // addTask,
+   changeFilter, changeStatus,
    changeTaskTitle, changeTodolistTitle, filter,
    id, removeTask, removeTodolist,
    title
 }) {
    // console.log('Todolist is called')
    const dispatch = useDispatch<AppDispatchType>();
+
    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id]);
+   const currentTask = tasks.find(f => f.todoListId === id)
 
    useEffect(() => {
       dispatch(fetchTasksTC(id))
@@ -33,7 +36,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       changeTodolistTitle(id, newTitle);
    }, [changeTodolistTitle, id])
    const addTaskHandler = useCallback((title: string) => {
-      dispatch(addTaskAC(title, id))
+      // dispatch(addTaskAC(title, id))
+      dispatch(createTasksTC(title, id))
    }, [dispatch])
 
    let allTodolistTasks = tasks;
@@ -56,7 +60,8 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
             </IconButton>
             <AddItemForm
                id={id}
-               addItem={addTaskHandler} />
+               addItem={addTaskHandler}
+            />
          </h3>
          <div>
             {
@@ -65,7 +70,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
                      task={t}
                      todolistId={id}
                      key={t.id}
-                     addTask={addTask}
+                     // addTask={addTask}
                      changeStatus={changeStatus}
                      changeTaskTitle={changeTaskTitle}
                      removeTask={removeTask} />)

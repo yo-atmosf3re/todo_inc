@@ -21,7 +21,7 @@ import {
     fetchTasksTC,
     removeTaskTC
 } from './store/tasks-reducer';
-import { TaskStatuses } from './api/todolists-API';
+import { TaskStatuses, TaskType } from './api/todolists-API';
 import { AddItemForm, Todolist } from './components';
 
 // * MUI theme
@@ -39,11 +39,6 @@ const PAPER_STYLE = { padding: '10px' }
 export const AppWithRedux = () => {
     const dispatch = useDispatch<AppDispatchType>();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
-
-    // useEffect(() => {
-    //     todolists.forEach(f => dispatch(fetchTasksTC(f.id)))
-    // }, [todolists])
-
     useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [])
@@ -52,7 +47,10 @@ export const AppWithRedux = () => {
     // ? Task's callback
     // const removeTask = useCallback((todolistId: string, id: string) => dispatch(removeTaskAC(id, todolistId)), [])
     const removeTask = useCallback((todolistId: string, taskId: string) => dispatch(removeTaskTC(todolistId, taskId)), [dispatch])
-    const addTask = useCallback((title: string, todolistId: string) => dispatch(addTaskAC(title, todolistId)), [dispatch])
+    // ** Старое
+    // const addTask = useCallback((title: string, todolistId: string) => dispatch(addTaskAC(title, todolistId)), [dispatch])
+    // ** Новое
+    // const addTask = useCallback((task: TaskType) => dispatch(addTaskAC(task)), [dispatch])
     const changeStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => dispatch(changeStatusTaskAC(taskId, status, todolistId)), [dispatch])
     const changeTaskTitles = useCallback((taskId: string, newTitle: string, todolistId: string) => dispatch(changeTaskTitleAC(taskId, newTitle, todolistId)), [dispatch])
 
@@ -121,7 +119,7 @@ export const AppWithRedux = () => {
                                         style={PAPER_STYLE}>
                                         <Todolist
                                             removeTask={removeTask}
-                                            addTask={addTask}
+                                            // addTask={addTask}
                                             changeStatus={changeStatus}
                                             changeTaskTitle={changeTaskTitles}
                                             changeTodolistTitle={changeTodolistTitle}

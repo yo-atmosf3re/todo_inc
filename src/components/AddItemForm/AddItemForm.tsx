@@ -4,7 +4,7 @@ import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import { AddItemFormPropsType } from "./AddItemForm.types";
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
-   addItem
+   addItem,
 }) => {
    // console.log('AddItemForm is called')
    const [title, setTitle] = useState('')
@@ -12,7 +12,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
 
    const addItemHandler = () => {
       if (title.trim() !== '') {
-         addItem(title.trim());
+         addItem && addItem(title.trim());
          setTitle('')
       } else {
          setError('Title is required')
@@ -25,7 +25,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
          setError(null);
       }
       if (e.charCode === 13) {
-         addItem(title);
+         addItem && addItem(title);
          setTitle('')
       }
    }
