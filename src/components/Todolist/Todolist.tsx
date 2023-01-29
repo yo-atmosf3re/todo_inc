@@ -9,21 +9,19 @@ import { TodolistPropsType } from './Todolist.types';
 import { EditableSpan, AddItemForm, Task } from '..';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
-   // addTask,
+   addTask,
    changeFilter, changeStatus,
    changeTaskTitle, changeTodolistTitle, filter,
    id, removeTask, removeTodolist,
-   title
+   title,
+   tasks
 }) {
    // console.log('Todolist is called')
    const dispatch = useDispatch<AppDispatchType>();
 
-   const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id]);
-   const currentTask = tasks.find(f => f.todoListId === id)
-
    useEffect(() => {
       dispatch(fetchTasksTC(id))
-   }, [id])
+   }, [])
 
    const onAllClickHandler = useCallback(() => changeFilter('all', id), [changeFilter, id])
    const onActiveClickHandler = useCallback(() => changeFilter('active', id), [changeFilter, id])
@@ -37,8 +35,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
    }, [changeTodolistTitle, id])
    const addTaskHandler = useCallback((title: string) => {
       // dispatch(addTaskAC(title, id))
-      dispatch(createTasksTC(title, id))
-   }, [dispatch])
+      // dispatch(createTasksTC(title, id))
+      addTask(title, id)
+   }, [addTask, id])
 
    let allTodolistTasks = tasks;
    let tasksForTodolist = allTodolistTasks;
@@ -70,10 +69,11 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
                      task={t}
                      todolistId={id}
                      key={t.id}
-                     // addTask={addTask}
+                     addTask={addTask}
                      changeStatus={changeStatus}
                      changeTaskTitle={changeTaskTitle}
-                     removeTask={removeTask} />)
+                     removeTask={removeTask}
+                  />)
             }
          </div>
          <div>
