@@ -100,8 +100,6 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
    }
 }
 
-fetchTodolistsTC()
-
       // todolistsAPI.getTodolists()
       //    .then(res => {
       //       dispatch(setTodosAC(res.data))
