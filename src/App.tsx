@@ -20,15 +20,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatchType, AppRootStateType } from './store/store';
 import {
     removeTaskAC, addTaskAC, changeStatusTaskAC,
-    changeTaskTitleAC,
-    fetchTasksTC,
+    changeTaskTitleAC, fetchTasksTC,
     removeTaskTC,
-    updateTaskStatusTC,
-    updateTaskTitleAC,
-    createTasksTC,
+    updateTaskStatusTC, updateTaskTitleAC, createTasksTC,
 } from './store/tasks-reducer';
 import { TaskStatuses, TaskType } from './api/todolists-API';
-import { AddItemForm, Todolist } from './components';
+import { AddItemForm, Header, Todolist } from './components';
 import { TasksStateType } from './App.types';
 
 // * MUI theme
@@ -90,28 +87,7 @@ export const AppWithRedux = () => {
     return (
         <div >
             <ThemeProvider theme={THEME}>
-                <Box sx={{ flexGrow: 2 }}>
-                    <AppBar
-                        color='primary'
-                        position="relative">
-                        <Toolbar>
-                            <IconButton
-                                size="medium"
-                                edge="start"
-                                color="default"
-                                sx={{ mr: 5 }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography
-                                variant="h4"
-                                component="div"
-                                sx={{ flexGrow: 1 }}>
-                                Todolist
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
+                <Header />
                 <Container fixed>
                     <Grid
                         container
