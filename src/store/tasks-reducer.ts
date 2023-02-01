@@ -172,7 +172,7 @@ export const removeTaskTC = (todolistId: string, taskId: string) => async (dispa
 export const createTasksTC = (title: string, todolistId: string) => async (dispatch: Dispatch) => {
    try {
       const { data } = await todolistsAPI.createTasks(todolistId, title)
-      dispatch(addTaskAC(data.data))
+      dispatch(addTaskAC(data.data.item))
    } catch (error) {
       console.log(error)
    }
