@@ -27,6 +27,7 @@ import {
 import { TaskStatuses, TaskType } from './api/todolists-API';
 import { AddItemForm, Header, Todolist } from './components';
 import { TasksStateType } from './App.types';
+import { AppReducerInitialStateType, setStatusAC } from './store/app-reducer';
 
 // * MUI theme
 const THEME = createTheme({
@@ -44,9 +45,12 @@ export const AppWithRedux = () => {
     const dispatch = useDispatch<AppDispatchType>();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const { status } = useSelector<AppRootStateType, AppReducerInitialStateType>(state => state.app)
 
     useEffect(() => {
+        // dispatch(setStatusAC('loading'))
         dispatch(fetchTodolistsTC())
+        // dispatch(setStatusAC('succeeded'))
     }, [])
 
     // ! Если обернуть функцию с диспатчем в useCallback, то это правда помогает. Например: теперь, когда фильтруешь таски по приоритету, то вызываются коллбэки только для определенных тудулистов, и нет 100500 вызовов для всех тудулистов (это к вопросу о том "Зачем тут useCallback?" всё-таки);

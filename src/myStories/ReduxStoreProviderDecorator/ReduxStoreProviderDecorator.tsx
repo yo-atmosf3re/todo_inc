@@ -26,6 +26,9 @@ const initialGlobalState: AppRootStateType = {
          { id: v1(), title: "Milk", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2" },
          { id: v1(), title: "React Book", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2" }
       ]
+   },
+   app: {
+      status: 'loading'
    }
 };
 

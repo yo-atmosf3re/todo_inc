@@ -1,3 +1,4 @@
+import { setStatusAC, SetStatusActionType } from './app-reducer';
 import { todolistsAPI } from './../api/todolists-API';
 import { v1 } from "uuid"
 import { TodolistType } from "../api/todolists-API"
@@ -32,7 +33,7 @@ export type TodolistDomainType = TodolistType & {
    filter: FilterValuesType
 }
 
-export type ActionsTodolistsReducerType = RemoveTodolistActionType | AddTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType | SetTodosActionType
+export type ActionsTodolistsReducerType = RemoveTodolistActionType | AddTodolistActionType | ChangeTodolistTitleActionType | ChangeTodolistFilterActionType | SetTodosActionType | SetStatusActionType
 
 export const todolistTheId1 = v1();
 export const todolistTheId2 = v1();
@@ -96,7 +97,9 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
    try {
       const { data } = await todolistsAPI.getTodolists()
       dispatch(setTodosAC(data))
+      dispatch(setStatusAC('succeeded'))
    } catch (error) {
+      dispatch(setStatusAC('failed'))
       console.log(error)
    }
 }
@@ -104,9 +107,12 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
 // ** Удаление тудулиста;
 export const deleteTodolistTC = (todolistId: string) => async (dispatch: Dispatch) => {
    try {
+      dispatch(setStatusAC('loading'))
       await todolistsAPI.deleteTodolist(todolistId)
       dispatch(removeTodolistAC(todolistId))
+      dispatch(setStatusAC('succeeded'))
    } catch (error) {
+      dispatch(setStatusAC('failed'))
       console.log(error)
    }
 }
@@ -114,19 +120,25 @@ export const deleteTodolistTC = (todolistId: string) => async (dispatch: Dispatc
 // ** Изменение названия тудулиста;
 export const changeTodolistTitleTC = (todolistId: string, newTitle: string) => async (dispatch: Dispatch) => {
    try {
+      dispatch(setStatusAC('loading'))
       await todolistsAPI.updateTodolist(todolistId, newTitle)
       dispatch(changeTodolistTitleAC(todolistId, newTitle))
+      dispatch(setStatusAC('succeeded'))
    } catch (error) {
       console.log(error)
+      dispatch(setStatusAC('failed'))
    }
 }
 
 // ** Создание тудулиста;
 export const createTodolistTC = (title: string) => async (dispatch: Dispatch) => {
    try {
+      dispatch(setStatusAC('loading'))
       await todolistsAPI.createTodolist(title)
       dispatch(addTodolistAC(title))
+      dispatch(setStatusAC('succeeded'))
    } catch (error) {
       console.log(error)
+      dispatch(setStatusAC('failed'))
    }
 }
