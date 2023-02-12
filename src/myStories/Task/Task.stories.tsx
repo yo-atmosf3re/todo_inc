@@ -20,12 +20,12 @@ export const TaskBaseExample = () => {
          addTask={addTaskCallback}
          changeStatus={changeStatusCallback}
          changeTaskTitle={changeTaskTitleCallback}
-         removeTask={removeTaskCallback} />
+         removeTask={removeTaskCallback} entityStatus={'idle'} />
       <Task task={{ id: '2', status: TaskStatuses.New, title: 'JS', todoListId: "todolistTheId2", description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, entityStatus: 'idle' }}
          todolistId={'TodolistId2'}
          addTask={addTaskCallback}
          changeStatus={changeStatusCallback}
          changeTaskTitle={changeTaskTitleCallback}
-         removeTask={removeTaskCallback} />
+         removeTask={removeTaskCallback} entityStatus={'idle'} />
    </>
 }

@@ -1,20 +1,18 @@
 import { Checkbox, IconButton } from '@mui/material';
 import * as React from 'react';
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskStatuses } from '../../api/todolists-API';
 import { TaskPropsType } from './Task.types';
 import { EditableSpan } from '..';
 import { removeTaskTC } from '../../store/tasks-reducer';
 import { useDispatch } from 'react-redux';
-import { AppDispatchType, AppRootStateType } from '../../store/store';
-import { useSelector } from 'react-redux';
-import { TasksStateType } from '../../App.types';
+import { AppDispatchType } from '../../store/store';
 
 export const Task: React.FC<TaskPropsType> = React.memo(({
-   addTask,
    changeStatus, changeTaskTitle,
-   removeTask, task, todolistId
+   removeTask, task, todolistId,
+   entityStatus
 }) => {
    const dispatch = useDispatch<AppDispatchType>()
 
@@ -31,10 +29,6 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
 
    const classNameTaskCondition = task.status === TaskStatuses.Completed ? 'is-done' : ''
 
-   const { } = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-
-   console.log(task.entityStatus)
-
    return (
       <div
          key={todolistId}
@@ -44,10 +38,14 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
             checked={task.status === TaskStatuses.Completed}
          />
          <EditableSpan
+            disable={entityStatus === 'loading'}
             onChange={onTitleChangeHandler}
             title={task.title}
          />
-         <IconButton onClick={onClickRemoveHandler}>
+         <IconButton
+            disabled={entityStatus === 'loading'}
+            onClick={onClickRemoveHandler}
+         >
             <DeleteIcon fontSize="small" />
          </IconButton>
       </div>)

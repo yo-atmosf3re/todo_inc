@@ -1,11 +1,11 @@
 import { AppRootStateType } from './store';
 import { TaskType, todolistsAPI } from './../api/todolists-API';
-import { TaskPriorities, TaskStatuses } from '../api/todolists-API';
-import { v1 } from "uuid"
+import { TaskStatuses } from '../api/todolists-API';
 import { TasksStateType } from "../App.types";
-import { AddTodolistActionType, RemoveTodolistActionType, SetTodosActionType, todolistTheId1, todolistTheId2 } from "./todolists-reducer"
+import { AddTodolistActionType, changeTodolistEntityStatusAC, RemoveTodolistActionType, SetTodosActionType } from "./todolists-reducer"
 import { Dispatch } from 'redux';
 import { setStatusAC, setErrorAC, setSwitchLinearAC, RequestStatusType } from './app-reducer';
+import { dowloadProcessHandler, uploadFailureHandler } from '../utils/error-utils';
 
 export type RemoveTaskActionType = {
    todolistId: string,
@@ -132,6 +132,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
    }
 }
 
+// todo ----------------------------
+
 export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActionType => ({ type: 'REMOVE-TASK', todolistId, taskId, })
 
 export const addTaskAC = (task: TaskType): AddTaskActionType => ({ type: 'ADD-TASK', task })
@@ -144,46 +146,45 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string): SetTasksActio
 
 export const setStatusEntityAC = (taskId: string, todolistId: string, entityStatus: RequestStatusType): SetEntityStatusTaskActionType => ({ type: 'SET-ENTITY-STATUS', taskId, todolistId, entityStatus })
 
+// todo ----------------------------
+
 // ** Запрос всех тасок;
 export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
+   dowloadProcessHandler(dispatch, todolistId, 'before')
+   const { data } = await todolistsAPI.getTasks(todolistId)
    try {
-      dispatch(setStatusAC('loading'))
-      const { data } = await todolistsAPI.getTasks(todolistId)
       dispatch(setTasksAC(data.items, todolistId))
-      dispatch(setStatusAC('succeeded'))
+      dowloadProcessHandler(dispatch, todolistId, 'idle')
    } catch (error) {
       console.log(error)
-      dispatch(setStatusAC('failed'))
+      uploadFailureHandler(dispatch, data.error)
    }
 }
 
 // ** Удаление таски;
 export const removeTaskTC = (todolistId: string, taskId: string) => async (dispatch: Dispatch) => {
    dispatch(setStatusEntityAC(taskId, todolistId, 'loading'))
+   dowloadProcessHandler(dispatch, todolistId, 'before')
    const { data } = await todolistsAPI.deleteTasks(todolistId, taskId)
-   dispatch(setStatusAC('loading'))
    try {
       dispatch(removeTaskAC(todolistId, taskId))
-      dispatch(setStatusAC('succeeded'))
+      dowloadProcessHandler(dispatch, todolistId, 'after')
    } catch (error) {
       console.log(error)
-      dispatch(setStatusAC('failed'))
+      uploadFailureHandler(dispatch, data.messages[0])
    }
 }
 
 // ** Создание новой таски;
 export const createTasksTC = (title: string, todolistId: string) => async (dispatch: Dispatch) => {
+   dowloadProcessHandler(dispatch, todolistId, 'before')
    const { data } = await todolistsAPI.createTasks(todolistId, title)
-   dispatch(setSwitchLinearAC(true))
-   dispatch(setStatusAC('loading'))
    try {
       dispatch(addTaskAC(data.data.item))
-      dispatch(setStatusAC('succeeded'))
-      dispatch(setErrorAC('The change was successful!'))
+      dowloadProcessHandler(dispatch, todolistId, 'after')
    } catch (error) {
       console.log(error)
-      dispatch(setStatusAC('failed'))
-      dispatch(setErrorAC(data.messages[0]))
+      uploadFailureHandler(dispatch, data.messages[0])
    }
 }
 
@@ -193,21 +194,21 @@ export const updateTaskStatusTC = (taskId: string, status: TaskStatuses, todolis
    const tasksForCurrentTodolist = allTasksFromState[todolistId]
    const task = tasksForCurrentTodolist.find(t => t.id === taskId)
    if (task) {
+      dowloadProcessHandler(dispatch, todolistId, 'before')
+      const { data } = await todolistsAPI.updateTasks(todolistId, taskId, {
+         title: task.title,
+         deadline: task.deadline,
+         description: task.description,
+         priority: task.priority,
+         startDate: task.startDate,
+         status: status
+      })
       try {
-         dispatch(setStatusAC('loading'))
-         await todolistsAPI.updateTasks(todolistId, taskId, {
-            title: task.title,
-            deadline: task.deadline,
-            description: task.description,
-            priority: task.priority,
-            startDate: task.startDate,
-            status: status
-         })
          dispatch(changeStatusTaskAC(taskId, status, todolistId))
-         dispatch(setStatusAC('succeeded'))
+         dowloadProcessHandler(dispatch, todolistId, 'after')
       } catch (error) {
          console.log(error)
-         dispatch(setStatusAC('failed'))
+         uploadFailureHandler(dispatch, data.messages[0])
       }
    }
 }
@@ -218,21 +219,21 @@ export const updateTaskTitleAC = (taskId: string, newTitle: string, todolistId: 
    const tasksForCurrentTodolist = allTasksFromState[todolistId]
    const task = tasksForCurrentTodolist.find(t => t.id === taskId)
    if (task) {
+      dowloadProcessHandler(dispatch, todolistId, 'before')
+      const { data } = await todolistsAPI.updateTasks(todolistId, taskId, {
+         title: newTitle,
+         deadline: task.deadline,
+         description: task.description,
+         priority: task.priority,
+         startDate: task.startDate,
+         status: task.status
+      })
       try {
-         dispatch(setStatusAC('loading'))
-         await todolistsAPI.updateTasks(todolistId, taskId, {
-            title: newTitle,
-            deadline: task.deadline,
-            description: task.description,
-            priority: task.priority,
-            startDate: task.startDate,
-            status: task.status
-         })
          dispatch(changeTaskTitleAC(taskId, newTitle, todolistId))
-         dispatch(setStatusAC('succeeded'))
+         dowloadProcessHandler(dispatch, todolistId, 'after')
       } catch (error) {
          console.log(error)
-         dispatch(setStatusAC('failed'))
+         uploadFailureHandler(dispatch, data.messages[0])
       }
    }
 }

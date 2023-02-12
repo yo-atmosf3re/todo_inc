@@ -1,3 +1,4 @@
+import { RequestStatusType } from './../../store/app-reducer';
 import { TaskType, TaskStatuses } from "../../api/todolists-API"
 
 export type TaskPropsType = {
@@ -5,7 +6,7 @@ export type TaskPropsType = {
    todolistId: string
    removeTask: (id: string, todolistId: string) => void
    addTask: (title: string, todolistId: string) => void
-   // addTask: (task: TaskType) => void
    changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+   entityStatus: RequestStatusType
 }

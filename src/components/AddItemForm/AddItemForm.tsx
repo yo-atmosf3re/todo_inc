@@ -2,12 +2,17 @@ import { IconButton, TextField } from "@mui/material"
 import React, { useState, ChangeEvent, KeyboardEvent } from "react"
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import { AddItemFormPropsType } from "./AddItemForm.types";
+import { AppRootStateType } from "../../store/store";
+import { TodolistDomainType } from "../../store/todolists-reducer";
+import { useSelector } from "react-redux";
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
-   addItem
+   addItem, disabled
 }) => {
    const [title, setTitle] = useState('')
    const [error, setError] = useState<string | null>(null)
+   const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
+   const loadingCondition = todolists.some(f => f.entityStatus === 'loading')
 
    const addItemHandler = () => {
       if (title.trim() !== '') {
@@ -32,6 +37,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
    return (
       <div>
          <TextField
+            disabled={loadingCondition}
             value={title}
             onChange={onChangeHandler}
             onKeyPress={onKeyPressHandler}
@@ -42,6 +48,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
             id="outlined-search"
             type="search" />
          <IconButton
+            disabled={disabled}
             onClick={addItemHandler}
             color={'primary'}
             className={'button-plus'}>

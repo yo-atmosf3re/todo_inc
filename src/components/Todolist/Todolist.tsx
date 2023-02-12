@@ -56,6 +56,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       <div>
          <h3>
             <EditableSpan
+               disable={entityStatus === 'loading'}
                onChange={changeTodolistTitleHandler}
                title={title} />
             <IconButton
@@ -65,6 +66,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
                <DeleteIcon />
             </IconButton>
             <AddItemForm
+               disabled={entityStatus === 'loading'}
                id={id}
                addItem={addTaskHandler}
             />
@@ -73,6 +75,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
             {
                tasksForTodolist.map(t =>
                   <Task
+                     entityStatus={t.entityStatus}
                      task={t}
                      todolistId={id}
                      key={t.id}

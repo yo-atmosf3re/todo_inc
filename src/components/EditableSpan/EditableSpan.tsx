@@ -3,7 +3,8 @@ import React, { ChangeEvent, useState } from "react"
 import { EditableSpanPropsType } from "./EditableSpan.types";
 
 export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({
-   onChange, title
+   onChange, title,
+   disable
 }) => {
    // console.log('EditableSpan is called')
    let [editMode, setEditMode] = useState<boolean>(false);
@@ -24,7 +25,9 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = React.memo(({
          onChange={onChangeTitleHandler}
          onBlur={activateViewMode}
          value={caption}
-         autoFocus />
+         autoFocus
+         disabled={disable}
+      />
       : <span onDoubleClick={activateEditMode}>
          {title}
       </span>

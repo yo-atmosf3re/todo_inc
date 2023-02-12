@@ -3,6 +3,7 @@ import { todolistsAPI } from './../api/todolists-API';
 import { v1 } from "uuid"
 import { TodolistType } from "../api/todolists-API"
 import { Dispatch } from 'redux';
+import { dowloadProcessHandler, uploadFailureHandler } from '../utils/error-utils';
 
 export type RemoveTodolistActionType = {
    type: 'REMOVE-TODOLIST'
@@ -90,6 +91,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
    }
 }
 
+// todo ----------------------------
+
 export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => ({ type: 'REMOVE-TODOLIST', id: todolistId })
 
 export const addTodolistAC = (todolist: TodolistType): AddTodolistActionType => ({ type: 'ADD-TODOLIST', todolist })
@@ -101,6 +104,8 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 export const setTodosAC = (todolists: Array<TodolistType>): SetTodosActionType => ({ type: 'SET-TODOLISTS', todolists })
 
 export const changeTodolistEntityStatusAC = (entityStatus: RequestStatusType, todolistId: string): ChangeTodolistEntityStatusAT => ({ type: 'CHANGE-ENTITY-STATUS', entityStatus, todolistId })
+
+// todo ----------------------------
 
 // ** Запрос всех тудулистов;
 export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolistsReducerType>) => {
@@ -116,43 +121,39 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
 
 // ** Удаление тудулиста;
 export const deleteTodolistTC = (todolistId: string) => async (dispatch: Dispatch) => {
-   dispatch(changeTodolistEntityStatusAC('loading', todolistId))
+   dowloadProcessHandler(dispatch, todolistId, 'before')
    const { data } = await todolistsAPI.deleteTodolist(todolistId)
-   dispatch(setStatusAC('loading'))
    try {
       dispatch(removeTodolistAC(todolistId))
-      dispatch(setStatusAC('succeeded'))
+      dowloadProcessHandler(dispatch, todolistId, 'after')
    } catch (error) {
-      dispatch(setStatusAC('failed'))
+      uploadFailureHandler(dispatch, data.messages[0])
       console.log(error)
    }
 }
 
 // ** Изменение названия тудулиста;
 export const changeTodolistTitleTC = (todolistId: string, newTitle: string) => async (dispatch: Dispatch) => {
+   dowloadProcessHandler(dispatch, todolistId, 'before')
+   const { data } = await todolistsAPI.updateTodolist(todolistId, newTitle)
    try {
-      dispatch(setStatusAC('loading'))
-      await todolistsAPI.updateTodolist(todolistId, newTitle)
       dispatch(changeTodolistTitleAC(todolistId, newTitle))
-      dispatch(setStatusAC('succeeded'))
+      dowloadProcessHandler(dispatch, todolistId, 'after')
    } catch (error) {
       console.log(error)
-      dispatch(setStatusAC('failed'))
+      uploadFailureHandler(dispatch, data.messages[0])
    }
 }
 
 // ** Создание тудулиста;
 export const createTodolistTC = (title: string) => async (dispatch: Dispatch) => {
    const { data } = await todolistsAPI.createTodolist(title)
-   dispatch(setStatusAC('loading'))
-   dispatch(setSwitchLinearAC(true))
+   dowloadProcessHandler(dispatch, data.data.item.id, 'before')
    try {
       dispatch(addTodolistAC(data.data.item))
-      dispatch(setStatusAC('succeeded'))
-      dispatch(setErrorAC('The change was successful!'))
+      dowloadProcessHandler(dispatch, data.data.item.id, 'after')
    } catch (error) {
       console.log(error)
-      dispatch(setStatusAC('failed'))
-      dispatch(setErrorAC(data.messages[0]))
+      uploadFailureHandler(dispatch, data.messages[0])
    }
 }
