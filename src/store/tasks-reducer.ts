@@ -5,18 +5,13 @@ import { v1 } from "uuid"
 import { TasksStateType } from "../App.types";
 import { AddTodolistActionType, RemoveTodolistActionType, SetTodosActionType, todolistTheId1, todolistTheId2 } from "./todolists-reducer"
 import { Dispatch } from 'redux';
-import { setStatusAC } from './app-reducer';
+import { setStatusAC, setErrorAC, setSwitchLinearAC, RequestStatusType } from './app-reducer';
 
 export type RemoveTaskActionType = {
    todolistId: string,
    taskId: string
    type: 'REMOVE-TASK'
 }
-// export type AddTaskActionType = {
-//    title: string
-//    todolistId: string
-//    type: 'ADD-TASK'
-// }
 export type AddTaskActionType = {
    task: TaskType
    type: 'ADD-TASK'
@@ -38,38 +33,44 @@ export type SetTasksActionType = {
    todolistId: string
    type: 'SET-TASKS'
 }
+export type SetEntityStatusTaskActionType = {
+   type: 'SET-ENTITY-STATUS'
+   todolistId: string
+   taskId: string
+   entityStatus: RequestStatusType
+}
 
 export type ActionsTasksReducerType =
    RemoveTaskActionType | AddTaskActionType | ChangeStatusTaskActionType |
    ChangeTaskTitleActionType | AddTodolistActionType | RemoveTodolistActionType |
-   SetTodosActionType | SetTasksActionType
+   SetTodosActionType | SetTasksActionType | SetEntityStatusTaskActionType
 
 const initialState: TasksStateType = {
-   [todolistTheId1]: [
-      {
-         id: v1(),
-         title: "HTML&CSS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
-      },
-      {
-         id: v1(), title: "JS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
-      },
-      {
-         id: v1(), title: "ReactJS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
-      },
-      {
-         id: v1(), title: "Redux", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
-      },
-      {
-         id: v1(), title: "GraphQL", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
-      },
-   ],
-   [todolistTheId2]: [
-      { id: v1(), title: "Bread", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
-      { id: v1(), title: "Milk", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
-      { id: v1(), title: "Book", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
-      { id: v1(), title: "Cigarettes", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
-      { id: v1(), title: "Food", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
-   ]
+   // [todolistTheId1]: [
+   //    {
+   //       id: v1(),
+   //       title: "HTML&CSS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
+   //    },
+   //    {
+   //       id: v1(), title: "JS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
+   //    },
+   //    {
+   //       id: v1(), title: "ReactJS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
+   //    },
+   //    {
+   //       id: v1(), title: "Redux", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
+   //    },
+   //    {
+   //       id: v1(), title: "GraphQL", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId1
+   //    },
+   // ],
+   // [todolistTheId2]: [
+   //    { id: v1(), title: "Bread", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
+   //    { id: v1(), title: "Milk", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
+   //    { id: v1(), title: "Book", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
+   //    { id: v1(), title: "Cigarettes", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
+   //    { id: v1(), title: "Food", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Hi, startDate: '', status: TaskStatuses.New, todoListId: todolistTheId2 },
+   // ]
 }
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsTasksReducerType): TasksStateType => {
@@ -97,7 +98,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       case 'ADD-TODOLIST': {
          return {
             ...state,
-            [action.id]: []
+            [action.todolist.id]: []
          }
       }
       case 'REMOVE-TODOLIST': {
@@ -118,6 +119,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
          stateCopy[action.todolistId] = action.tasks
          return stateCopy
       }
+      case 'SET-ENTITY-STATUS': {
+         let todolistTasks = state[action.todolistId];
+         state[action.todolistId] = todolistTasks.map(t => t.id === action.taskId
+            ? { ...t, entityStatus: 'loading' }
+            : t
+         )
+         return { ...state }
+      }
       default:
          return state;
    }
@@ -132,6 +141,8 @@ export const changeStatusTaskAC = (taskId: string, status: TaskStatuses, todolis
 export const changeTaskTitleAC = (taskId: string, newTitle: string, todolistId: string): ChangeTaskTitleActionType => ({ type: 'CHANGE-TASK-TITLE', taskId, newTitle, todolistId })
 
 export const setTasksAC = (tasks: TaskType[], todolistId: string): SetTasksActionType => ({ type: 'SET-TASKS', tasks, todolistId })
+
+export const setStatusEntityAC = (taskId: string, todolistId: string, entityStatus: RequestStatusType): SetEntityStatusTaskActionType => ({ type: 'SET-ENTITY-STATUS', taskId, todolistId, entityStatus })
 
 // ** Запрос всех тасок;
 export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
@@ -148,9 +159,10 @@ export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) =
 
 // ** Удаление таски;
 export const removeTaskTC = (todolistId: string, taskId: string) => async (dispatch: Dispatch) => {
+   dispatch(setStatusEntityAC(taskId, todolistId, 'loading'))
+   const { data } = await todolistsAPI.deleteTasks(todolistId, taskId)
+   dispatch(setStatusAC('loading'))
    try {
-      dispatch(setStatusAC('loading'))
-      await todolistsAPI.deleteTasks(todolistId, taskId)
       dispatch(removeTaskAC(todolistId, taskId))
       dispatch(setStatusAC('succeeded'))
    } catch (error) {
@@ -161,14 +173,17 @@ export const removeTaskTC = (todolistId: string, taskId: string) => async (dispa
 
 // ** Создание новой таски;
 export const createTasksTC = (title: string, todolistId: string) => async (dispatch: Dispatch) => {
+   const { data } = await todolistsAPI.createTasks(todolistId, title)
+   dispatch(setSwitchLinearAC(true))
+   dispatch(setStatusAC('loading'))
    try {
-      dispatch(setStatusAC('loading'))
-      const { data } = await todolistsAPI.createTasks(todolistId, title)
       dispatch(addTaskAC(data.data.item))
       dispatch(setStatusAC('succeeded'))
+      dispatch(setErrorAC('The change was successful!'))
    } catch (error) {
       console.log(error)
       dispatch(setStatusAC('failed'))
+      dispatch(setErrorAC(data.messages[0]))
    }
 }
 

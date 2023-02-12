@@ -14,21 +14,23 @@ const rootReducer = combineReducers({
 
 const initialGlobalState: AppRootStateType = {
    todolists: [
-      { id: "todolistId1", title: "What to learn", filter: "all", addedDate: '', order: 0 },
-      { id: "todolistId2", title: "What to buy", filter: "all", addedDate: '', order: 0 }
+      { id: "todolistId1", title: "What to learn", filter: "all", addedDate: '', order: 0, entityStatus: 'idle' },
+      { id: "todolistId2", title: "What to buy", filter: "all", addedDate: '', order: 0, entityStatus: 'idle' }
    ],
    tasks: {
       ["todolistId1"]: [
-         { id: v1(), title: "HTML&CSS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId1" },
-         { id: v1(), title: "JS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId1" }
+         { id: v1(), title: "HTML&CSS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId1", entityStatus: 'idle' },
+         { id: v1(), title: "JS", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId1", entityStatus: 'idle' }
       ],
       ["todolistId2"]: [
-         { id: v1(), title: "Milk", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2" },
-         { id: v1(), title: "React Book", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2" }
+         { id: v1(), title: "Milk", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2", entityStatus: 'idle' },
+         { id: v1(), title: "React Book", addedDate: '', deadline: '', description: '', order: 0, priority: TaskPriorities.Low, startDate: '', status: TaskStatuses.Completed, todoListId: "todolistId2", entityStatus: 'idle' }
       ]
    },
    app: {
-      status: 'loading'
+      status: 'loading',
+      error: null,
+      switchLinear: false
    }
 };
 

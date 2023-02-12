@@ -6,28 +6,26 @@ import {
 } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import './App.css';
-import MenuIcon from '@mui/icons-material/Menu';
 import { cyan } from '@mui/material/colors';
 import {
-    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
+    changeTodolistFilterAC,
     changeTodolistTitleTC,
     createTodolistTC,
     deleteTodolistTC,
-    fetchTodolistsTC, FilterValuesType, removeTodolistAC,
+    fetchTodolistsTC, FilterValuesType,
     TodolistDomainType
 } from './store/todolists-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatchType, AppRootStateType } from './store/store';
 import {
-    removeTaskAC, addTaskAC, changeStatusTaskAC,
-    changeTaskTitleAC, fetchTasksTC,
     removeTaskTC,
     updateTaskStatusTC, updateTaskTitleAC, createTasksTC,
 } from './store/tasks-reducer';
-import { TaskStatuses, TaskType } from './api/todolists-API';
+import { TaskStatuses } from './api/todolists-API';
 import { AddItemForm, Header, Todolist } from './components';
 import { TasksStateType } from './App.types';
-import { AppReducerInitialStateType, setStatusAC } from './store/app-reducer';
+import { AppReducerInitialStateType } from './store/app-reducer';
+import { v1 } from 'uuid';
 
 // * MUI theme
 const THEME = createTheme({
@@ -48,9 +46,7 @@ export const AppWithRedux = () => {
     const { status } = useSelector<AppRootStateType, AppReducerInitialStateType>(state => state.app)
 
     useEffect(() => {
-        // dispatch(setStatusAC('loading'))
         dispatch(fetchTodolistsTC())
-        // dispatch(setStatusAC('succeeded'))
     }, [])
 
     // ! Если обернуть функцию с диспатчем в useCallback, то это правда помогает. Например: теперь, когда фильтруешь таски по приоритету, то вызываются коллбэки только для определенных тудулистов, и нет 100500 вызовов для всех тудулистов (это к вопросу о том "Зачем тут useCallback?" всё-таки);
@@ -100,7 +96,8 @@ export const AppWithRedux = () => {
                         <Grid item>
                             <AddItemForm
                                 addItem={addTodolist}
-                                id={'Hello'} />
+                                id={v1()}
+                            />
                         </Grid>
                     </Grid>
                     <Grid
@@ -116,6 +113,7 @@ export const AppWithRedux = () => {
                                         elevation={1}
                                         style={PAPER_STYLE}>
                                         <Todolist
+                                            entityStatus={tl.entityStatus}
                                             tasks={currentTasks}
                                             removeTask={removeTask}
                                             addTask={addTask}

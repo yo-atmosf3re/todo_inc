@@ -4,9 +4,8 @@ import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import { AddItemFormPropsType } from "./AddItemForm.types";
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({
-   addItem,
+   addItem
 }) => {
-   // console.log('AddItemForm is called')
    const [title, setTitle] = useState('')
    const [error, setError] = useState<string | null>(null)
 

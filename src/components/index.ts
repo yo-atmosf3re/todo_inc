@@ -1,10 +1,11 @@
-import { Todolist } from './Todolist/Todolist';
-import { Task } from './Task/Task';
-import { EditableSpan } from './EditableSpan/EditableSpan';
-import { AddItemForm } from './AddItemForm/AddItemForm';
+import { ErrorSnackbar } from './ErrorSnackbar';
+import { Todolist } from './Todolist';
+import { Task } from './Task';
+import { EditableSpan } from './EditableSpan';
+import { AddItemForm } from './AddItemForm';
 import { Header } from './Header';
 
 export {
    AddItemForm, EditableSpan, Task,
-   Todolist, Header
+   Todolist, Header, ErrorSnackbar
 }

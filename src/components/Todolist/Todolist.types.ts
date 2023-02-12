@@ -1,5 +1,6 @@
 import { TaskStatuses, TaskType } from "../../api/todolists-API"
 import { FilterValuesType } from "../../App.types"
+import { RequestStatusType } from "../../store/app-reducer"
 
 export type TodolistPropsType = {
    title: string,
@@ -16,4 +17,5 @@ export type TodolistPropsType = {
    tasks: TaskType[]
    changeStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+   entityStatus: RequestStatusType
 }

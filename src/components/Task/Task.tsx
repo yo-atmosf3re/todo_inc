@@ -7,7 +7,9 @@ import { TaskPropsType } from './Task.types';
 import { EditableSpan } from '..';
 import { removeTaskTC } from '../../store/tasks-reducer';
 import { useDispatch } from 'react-redux';
-import { AppDispatchType } from '../../store/store';
+import { AppDispatchType, AppRootStateType } from '../../store/store';
+import { useSelector } from 'react-redux';
+import { TasksStateType } from '../../App.types';
 
 export const Task: React.FC<TaskPropsType> = React.memo(({
    addTask,
@@ -29,6 +31,9 @@ export const Task: React.FC<TaskPropsType> = React.memo(({
 
    const classNameTaskCondition = task.status === TaskStatuses.Completed ? 'is-done' : ''
 
+   const { } = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+
+   console.log(task.entityStatus)
 
    return (
       <div

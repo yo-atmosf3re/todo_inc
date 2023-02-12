@@ -15,13 +15,13 @@ const addTaskCallback = action('Task added')
 
 export const TaskBaseExample = () => {
    return <>
-      <Task task={{ id: '1', status: TaskStatuses.Completed, title: 'React', todoListId: "todolistTheId1", description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low }}
+      <Task task={{ id: '1', status: TaskStatuses.Completed, title: 'React', todoListId: "todolistTheId1", description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, entityStatus: 'idle' }}
          todolistId={'TodolistId1'}
          addTask={addTaskCallback}
          changeStatus={changeStatusCallback}
          changeTaskTitle={changeTaskTitleCallback}
          removeTask={removeTaskCallback} />
-      <Task task={{ id: '2', status: TaskStatuses.New, title: 'JS', todoListId: "todolistTheId2", description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low }}
+      <Task task={{ id: '2', status: TaskStatuses.New, title: 'JS', todoListId: "todolistTheId2", description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low, entityStatus: 'idle' }}
          todolistId={'TodolistId2'}
          addTask={addTaskCallback}
          changeStatus={changeStatusCallback}

@@ -1,12 +1,16 @@
 import { Button, IconButton } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatchType, AppRootStateType } from '../../store/store';
-import { addTaskAC, createTasksTC, fetchTasksTC } from '../../store/tasks-reducer';
-import { TaskStatuses, TaskType } from '../../api/todolists-API';
+import { useDispatch, } from 'react-redux';
+import { AppDispatchType, AppRootStateType, } from '../../store/store';
+import { fetchTasksTC } from '../../store/tasks-reducer';
+import { TaskStatuses } from '../../api/todolists-API';
 import { TodolistPropsType } from './Todolist.types';
 import { EditableSpan, AddItemForm, Task } from '..';
+import { useSelector } from 'react-redux';
+import { TodolistDomainType } from '../../store/todolists-reducer';
+import { v1 } from 'uuid';
+import { RequestStatusType } from '../../store/app-reducer';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
    addTask,
@@ -14,9 +18,9 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
    changeTaskTitle, changeTodolistTitle, filter,
    id, removeTask, removeTodolist,
    title,
-   tasks
+   tasks,
+   entityStatus
 }) {
-   // console.log('Todolist is called')
    const dispatch = useDispatch<AppDispatchType>();
 
    useEffect(() => {
@@ -34,8 +38,6 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       changeTodolistTitle(id, newTitle);
    }, [changeTodolistTitle, id])
    const addTaskHandler = useCallback((title: string) => {
-      // dispatch(addTaskAC(title, id))
-      // dispatch(createTasksTC(title, id))
       addTask(title, id)
    }, [addTask, id])
 
@@ -48,13 +50,18 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.Completed)
    }
 
+   console.log(entityStatus)
+
    return (
       <div>
          <h3>
             <EditableSpan
                onChange={changeTodolistTitleHandler}
                title={title} />
-            <IconButton onClick={removeTodolistHandler}>
+            <IconButton
+               onClick={removeTodolistHandler}
+               disabled={entityStatus === 'loading'}
+            >
                <DeleteIcon />
             </IconButton>
             <AddItemForm
@@ -77,9 +84,22 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
             }
          </div>
          <div>
-            <Button variant={filter === 'all' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
-            <Button variant={filter === 'active' ? 'contained' : 'text'} onClick={onActiveClickHandler}>Active</Button>
-            <Button color={'secondary'} variant={filter === 'completed' ? 'contained' : 'text'} onClick={onComplitedClickHandler}>Completed</Button>
+            <Button
+               variant={filter === 'all' ? 'contained' : 'text'}
+               onClick={onAllClickHandler}>
+               All
+            </Button>
+            <Button
+               variant={filter === 'active' ? 'contained' : 'text'}
+               onClick={onActiveClickHandler}>
+               Active
+            </Button>
+            <Button
+               color={'secondary'}
+               variant={filter === 'completed' ? 'contained' : 'text'}
+               onClick={onComplitedClickHandler}>
+               Completed
+            </Button>
          </div>
       </div >
    );
