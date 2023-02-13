@@ -47,4 +47,4 @@ export const setStatusAC = (status: RequestStatusType): SetStatusActionType => (
 
 export const setErrorAC = (error: ErrorRequestType): SetAppErrorActionType => ({ type: 'APP/SET-ERROR', error })
 
-export const setSwitchLinearAC = (switchLinear: boolean): SetSwitchLinearActionType => ({ type: 'APP/SWITCH-LINEAR', switchLinear: switchLinear })
+export const setSwitchLinearAC = (switchLinear: boolean): SetSwitchLinearActionType => ({ type: 'APP/SWITCH-LINEAR', switchLinear })
