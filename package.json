@@ -18,15 +18,18 @@
     "@types/react-redux": "^7.1.24",
     "@types/uuid": "^8.3.4",
     "axios": "^0.27.2",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
+    "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
     "set-default-browser": "^1.1.2",
     "typescript": "^4.7.4",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yup": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",

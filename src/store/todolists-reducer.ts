@@ -81,9 +81,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
       case 'CHANGE-ENTITY-STATUS': {
          const stateCopy = [...state]
          const todolist = stateCopy.find(f => f.id === action.todolistId)
-         console.log(todolist, 'after')
          if (todolist) todolist.entityStatus = action.entityStatus
-         console.log(todolist, 'before')
          return stateCopy
       }
       default:
@@ -109,8 +107,8 @@ export const changeTodolistEntityStatusAC = (entityStatus: RequestStatusType, to
 
 // ** Запрос всех тудулистов;
 export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolistsReducerType>) => {
+   const { data } = await todolistsAPI.getTodolists()
    try {
-      const { data } = await todolistsAPI.getTodolists()
       dispatch(setTodosAC(data))
       dispatch(setStatusAC('succeeded'))
    } catch (error) {

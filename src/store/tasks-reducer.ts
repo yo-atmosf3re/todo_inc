@@ -2,9 +2,9 @@ import { AppRootStateType } from './store';
 import { TaskType, todolistsAPI } from './../api/todolists-API';
 import { TaskStatuses } from '../api/todolists-API';
 import { TasksStateType } from "../App.types";
-import { AddTodolistActionType, changeTodolistEntityStatusAC, RemoveTodolistActionType, SetTodosActionType } from "./todolists-reducer"
+import { AddTodolistActionType, RemoveTodolistActionType, SetTodosActionType } from "./todolists-reducer"
 import { Dispatch } from 'redux';
-import { setStatusAC, setErrorAC, setSwitchLinearAC, RequestStatusType } from './app-reducer';
+import { RequestStatusType } from './app-reducer';
 import { dowloadProcessHandler, uploadFailureHandler } from '../utils/error-utils';
 
 export type RemoveTaskActionType = {

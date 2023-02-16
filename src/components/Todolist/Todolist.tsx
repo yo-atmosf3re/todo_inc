@@ -7,19 +7,12 @@ import { fetchTasksTC } from '../../store/tasks-reducer';
 import { TaskStatuses } from '../../api/todolists-API';
 import { TodolistPropsType } from './Todolist.types';
 import { EditableSpan, AddItemForm, Task } from '..';
-import { useSelector } from 'react-redux';
-import { TodolistDomainType } from '../../store/todolists-reducer';
-import { v1 } from 'uuid';
-import { RequestStatusType } from '../../store/app-reducer';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
-   addTask,
-   changeFilter, changeStatus,
+   addTask, changeFilter, changeStatus,
    changeTaskTitle, changeTodolistTitle, filter,
    id, removeTask, removeTodolist,
-   title,
-   tasks,
-   entityStatus
+   title, tasks, entityStatus
 }) {
    const dispatch = useDispatch<AppDispatchType>();
 
@@ -50,23 +43,23 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.Completed)
    }
 
-   console.log(entityStatus)
+   const disableValue = entityStatus === 'loading'
 
    return (
       <div>
          <h3>
             <EditableSpan
-               disable={entityStatus === 'loading'}
+               disable={disableValue}
                onChange={changeTodolistTitleHandler}
                title={title} />
             <IconButton
                onClick={removeTodolistHandler}
-               disabled={entityStatus === 'loading'}
+               disabled={disableValue}
             >
                <DeleteIcon />
             </IconButton>
             <AddItemForm
-               disabled={entityStatus === 'loading'}
+               disabled={disableValue}
                id={id}
                addItem={addTaskHandler}
             />
