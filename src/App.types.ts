@@ -1,4 +1,4 @@
-import { TaskType } from "./api/todolists-API";
+import { TaskType } from "./api/api.types";
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 

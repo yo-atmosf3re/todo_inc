@@ -2,12 +2,12 @@ import { Checkbox, IconButton } from '@mui/material';
 import * as React from 'react';
 import { ChangeEvent, useCallback } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TaskStatuses } from '../../api/todolists-API';
 import { TaskPropsType } from './Task.types';
 import { EditableSpan } from '..';
 import { removeTaskTC } from '../../store/tasks-reducer';
 import { useDispatch } from 'react-redux';
 import { AppDispatchType } from '../../store/store';
+import { TaskStatuses } from '../../api/api.types';
 
 export const Task: React.FC<TaskPropsType> = React.memo(({
    changeStatus, changeTaskTitle,

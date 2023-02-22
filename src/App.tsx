@@ -1,8 +1,41 @@
-import React, { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import React, { Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { MainPage, Login, MainLayout, NotFound } from './pages';
+import { AuthInitialStateType, meTC } from './store/auth-reducer';
+import { AppDispatchType, AppRootStateType } from './store/store'
+
+const CIRCULAR_SOME_STYLE: React.CSSProperties = { position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }
 
 export const App = () => {
+
+    const { isLoggedIn, status, isInitialized } = useSelector<AppRootStateType, AuthInitialStateType>(state => state.auth)
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch<AppDispatchType>()
+
+    useEffect(() => {
+        dispatch(meTC())
+    }, [])
+
+    useEffect(() => {
+        if (status === '0') {
+            navigate('/login')
+        } if (status === '1') {
+            navigate('/')
+        }
+    }, [isLoggedIn])
+
+    if (!isInitialized) {
+        <div
+            style={CIRCULAR_SOME_STYLE}>
+            <CircularProgress />
+        </div>
+    }
+
+
     return (
         <Routes>
             <Route

@@ -1,5 +1,5 @@
+import { TaskType, TaskStatuses } from '../../api/api.types';
 import { RequestStatusType } from './../../store/app-reducer';
-import { TaskType, TaskStatuses } from "../../api/todolists-API"
 
 export type TaskPropsType = {
    task: TaskType

@@ -1,4 +1,4 @@
-import { TaskStatuses, TaskType } from "../../api/todolists-API"
+import { TaskType, TaskStatuses } from "../../api/api.types"
 import { FilterValuesType } from "../../App.types"
 import { RequestStatusType } from "../../store/app-reducer"
 

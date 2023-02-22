@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions'
 import { Task } from '../../components/Task';
-import { TaskPriorities, TaskStatuses } from '../../api/todolists-API';
+import { TaskStatuses, TaskPriorities } from '../../api/api.types';
 
 export default {
    title: 'Task Component',

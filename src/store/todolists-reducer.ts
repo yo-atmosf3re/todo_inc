@@ -1,9 +1,9 @@
 import { setStatusAC, SetStatusActionType, setErrorAC, setSwitchLinearAC, RequestStatusType } from './app-reducer';
 import { todolistsAPI } from './../api/todolists-API';
 import { v1 } from "uuid"
-import { TodolistType } from "../api/todolists-API"
 import { Dispatch } from 'redux';
 import { dowloadProcessHandler, uploadFailureHandler } from '../utils/error-utils';
+import { TodolistType } from '../api/api.types';
 
 export type RemoveTodolistActionType = {
    type: 'REMOVE-TODOLIST'
@@ -155,3 +155,5 @@ export const createTodolistTC = (title: string) => async (dispatch: Dispatch) =>
       uploadFailureHandler(dispatch, data.messages[0])
    }
 }
+
+// ! Доделать пункт 20 главы 3 Todolist 16;

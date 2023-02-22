@@ -4,9 +4,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, } from 'react-redux';
 import { AppDispatchType, AppRootStateType, } from '../../store/store';
 import { fetchTasksTC } from '../../store/tasks-reducer';
-import { TaskStatuses } from '../../api/todolists-API';
 import { TodolistPropsType } from './Todolist.types';
 import { EditableSpan, AddItemForm, Task } from '..';
+import { TaskStatuses } from '../../api/api.types';
 
 export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
    addTask, changeFilter, changeStatus,

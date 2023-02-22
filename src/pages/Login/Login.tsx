@@ -11,7 +11,9 @@ import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom';
 import { FormikErrorType } from './Login.types';
 import * as Yup from 'yup'
-import { v1 } from 'uuid';
+import { loginTC } from '../../store/auth-reducer';
+import { useDispatch } from 'react-redux';
+import { AppDispatchType } from '../../store/store';
 
 const COMMON_STYLES = { textDecoration: 'none' }
 
@@ -21,6 +23,7 @@ const validationSchema = Yup.object({
 })
 
 export const Login: React.FC = () => {
+   const dispatch = useDispatch<AppDispatchType>()
 
    const { handleSubmit, handleChange, values,
       errors, touched, getFieldProps,
@@ -32,7 +35,8 @@ export const Login: React.FC = () => {
          rememberMe: false
       },
       onSubmit: (values) => {
-         alert(JSON.stringify(values))
+         dispatch(loginTC(values.email, values.password, values.rememberMe))
+         console.log(values)
          resetForm()
       },
       validate: (values) => {
@@ -43,8 +47,6 @@ export const Login: React.FC = () => {
             errors.email = 'Invalid email address';
          } else if (values.password.length > 17) {
             errors.password = 'Password must be 16 characters or less';
-         } else if (values.password.length < 8) {
-            errors.password = 'Password must be at least 8 characters'
          }
          return errors;
       },
