@@ -1,18 +1,20 @@
 import {
    Box, AppBar, Toolbar,
-   IconButton, Typography, LinearProgress
+   IconButton, Typography, LinearProgress, Button
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { AppRootStateType } from '../../store/store'
+import { AppDispatchType, AppRootStateType } from '../../store/store'
 import { AppReducerInitialStateType, setSwitchLinearAC } from '../../store/app-reducer';
 import { ErrorSnackbar } from '../ErrorSnackbar';
 import { useDispatch } from 'react-redux';
+import { AuthInitialStateType, logoutTC } from '../../store/auth-reducer';
 
 export const Header = () => {
    const { status, switchLinear } = useSelector<AppRootStateType, AppReducerInitialStateType>(state => state.app)
-   const dispatch = useDispatch()
+   const { isLoggedIn } = useSelector<AppRootStateType, AuthInitialStateType>(state => state.auth)
+   const dispatch = useDispatch<AppDispatchType>()
 
    useEffect(() => {
       const timeout = setTimeout(() => {
@@ -43,6 +45,18 @@ export const Header = () => {
                   sx={{ flexGrow: 1 }}>
                   Todolist
                </Typography>
+               {
+                  isLoggedIn &&
+                  <Button
+                     color='inherit'
+                     variant='outlined'
+                     size='large'
+                     sx={{ fontSize: '20px' }}
+                     onClick={() => { dispatch(logoutTC()) }}
+                  >
+                     LOGOUT
+                  </Button>
+               }
                <ErrorSnackbar />
             </Toolbar>
             {

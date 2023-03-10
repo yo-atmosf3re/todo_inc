@@ -70,7 +70,8 @@ export type DataLoginType = {
    userId: number
 }
 export interface ResponseLoginType {
-   resutCode: string
+   // resutCode: string
+   resutCode: number
    messages: string[]
    fieldsErrors: string[]
    data: DataLoginType

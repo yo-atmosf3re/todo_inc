@@ -8,12 +8,13 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FormikErrorType } from './Login.types';
 import * as Yup from 'yup'
-import { loginTC } from '../../store/auth-reducer';
+import { AuthInitialStateType, loginTC } from '../../store/auth-reducer';
 import { useDispatch } from 'react-redux';
-import { AppDispatchType } from '../../store/store';
+import { AppDispatchType, AppRootStateType } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 const COMMON_STYLES = { textDecoration: 'none' }
 
@@ -23,6 +24,7 @@ const validationSchema = Yup.object({
 })
 
 export const Login: React.FC = () => {
+
    const dispatch = useDispatch<AppDispatchType>()
 
    const { handleSubmit, handleChange, values,

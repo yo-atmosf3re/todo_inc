@@ -113,7 +113,7 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch<ActionsTodolists
       dispatch(setStatusAC('succeeded'))
    } catch (error) {
       dispatch(setStatusAC('failed'))
-      console.log(error)
+      console.log(error, 'GET TODOLIST')
    }
 }
 

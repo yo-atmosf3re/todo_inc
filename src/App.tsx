@@ -16,57 +16,66 @@ export const App = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatchType>()
 
-    useEffect(() => {
-        dispatch(meTC())
-    }, [])
+
 
     useEffect(() => {
         if (status === '0') {
             navigate('/login')
-        } if (status === '1') {
+        }
+        if (status === '1') {
             navigate('/')
         }
     }, [isLoggedIn])
 
-    if (!isInitialized) {
-        <div
-            style={CIRCULAR_SOME_STYLE}>
-            <CircularProgress />
-        </div>
-    }
+    useEffect(() => {
+        dispatch(meTC())
+    }, [status])
+
+    // if (!isInitialized) {
+    //     <div
+    //         style={CIRCULAR_SOME_STYLE}>
+    //         <CircularProgress />
+    //     </div>
+    // }
 
 
     return (
-        <Routes>
-            <Route
-                path='/'
-                element={<MainLayout />}
-            >
-                <Route
-                    path='/login'
-                    element={
-                        <Suspense fallback={<NotFound type='page' />}>
-                            <Login />
-                        </Suspense>
-                    }
-                />
+        isInitialized
+            ?
+            <Routes>
                 <Route
                     path='/'
-                    element={
-                        <Suspense fallback={<NotFound type='page' />}>
-                            <MainPage />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path='*'
-                    element={<Navigate to='/incorrect-link-error' />}
-                />
-                <Route
-                    path='/incorrect-link-error'
-                    element={<NotFound type='link' />}
-                />
-            </Route>
-        </Routes>
+                    element={<MainLayout />}
+                >
+                    <Route
+                        path='/login'
+                        element={
+                            <Suspense fallback={<NotFound type='page' />}>
+                                <Login />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path='/'
+                        element={
+                            <Suspense fallback={<NotFound type='page' />}>
+                                <MainPage />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path='*'
+                        element={<Navigate to='/incorrect-link-error' />}
+                    />
+                    <Route
+                        path='/incorrect-link-error'
+                        element={<NotFound type='link' />}
+                    />
+                </Route>
+            </Routes>
+            : <div
+                style={CIRCULAR_SOME_STYLE}>
+                <CircularProgress />
+            </div>
     );
 }

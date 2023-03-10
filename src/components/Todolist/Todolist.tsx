@@ -20,6 +20,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({
       dispatch(fetchTasksTC(id))
    }, [])
 
+
    const onAllClickHandler = useCallback(() => changeFilter('all', id), [changeFilter, id])
    const onActiveClickHandler = useCallback(() => changeFilter('active', id), [changeFilter, id])
    const onComplitedClickHandler = useCallback(() => changeFilter('completed', id), [changeFilter, id])

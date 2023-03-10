@@ -45,22 +45,65 @@ export const setIsLoggedInAC = (isLoggedIn: boolean, status: '0' | '1'): SetIsLo
 
 export const setInitializationAC = (init: boolean): SetInitializationAT => ({ type: 'me/SET-INITIALIZATION', init })
 
+const initializaAppTC = () => async (dispatch: Dispatch) => {
+   const { data } = await authAPI.me()
+   try {
+      if (data.resultCode === 0) {
+         dispatch(setIsLoggedInAC(true, '1'))
+      }
+   } catch (error) {
+      console.log(error)
+   }
+}
+
 export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
    dispatch(setSwitchLinearAC(true))
    dispatch(setStatusAC('loading'))
-   const { data } = await authAPI.login(email, password, rememberMe)
    try {
-      dispatch(setIsLoggedInAC(true, '1'))
-      dispatch(setStatusAC('succeeded'))
+      const { data } = await authAPI.login(email, password, rememberMe)
+      // dispatch(setIsLoggedInAC(true, '1'))
+      // dispatch(setStatusAC('succeeded'))
+      if (data.resutCode === 0) {
+         dispatch(setIsLoggedInAC(true, '1'))
+         dispatch(setStatusAC('succeeded'))
+      }
+      if (data.resutCode > 0) {
+         dispatch(setIsLoggedInAC(false, '0'))
+      }
+      // else {
+      //    // dispatch(setStatusAC('failed'))
+      //    dispatch(setSwitchLinearAC(false))
+      //    dispatch(setIsLoggedInAC(false, '0'))
+      //    uploadFailureHandler(dispatch, data.messages[0])
+      // }
    } catch (error) {
-      console.log(error)
+      // if (data.resutCode > 0) {
+      //    dispatch(setIsLoggedInAC(false, '0'))
+      // }
+      console.log(error, 'login')
+      // dispatch(setSwitchLinearAC(false))
+      // dispatch(setIsLoggedInAC(false, '0'))
+      // uploadFailureHandler(dispatch, data.messages[0])
+   }
+}
+
+export const logoutTC = () => async (dispatch: Dispatch) => {
+   dispatch(setSwitchLinearAC(true))
+   dispatch(setStatusAC('loading'))
+   const { data } = await authAPI.logout()
+   try {
+      dispatch(setStatusAC('succeeded'))
+      dispatch(setIsLoggedInAC(false, '0'))
+      dispatch(setSwitchLinearAC(false))
+   } catch (error) {
+      console.log(error, 'error')
       dispatch(setSwitchLinearAC(false))
    }
 }
 
 export const meTC = () => async (dispatch: Dispatch) => {
-   // dispatch(setSwitchLinearAC(true))
-   dispatch(setInitializationAC(false))
+   dispatch(setSwitchLinearAC(true))
+   // dispatch(setInitializationAC(false))
    dispatch(setStatusAC('loading'))
    const { data } = await authAPI.me()
    try {
@@ -73,7 +116,8 @@ export const meTC = () => async (dispatch: Dispatch) => {
          dispatch(setInitializationAC(true))
       }
    } catch (error) {
-      console.log(error)
+      console.log(error, 'me')
       uploadFailureHandler(dispatch, data.messages[0])
+      dispatch(setIsLoggedInAC(false, '0'))
    }
 }

@@ -22,7 +22,8 @@ const instance = axios.create({
 // login: (data: LoginParamType) => instance.post<ResponseLoginType>('/auth/login', { data }),
 export const authAPI = {
    login: (email: string, password: string, rememberMe: boolean) => instance.post<ResponseLoginType>('/auth/login', { email, password, rememberMe }),
-   me: () => instance.get<GetResponseLoginType>('auth/me')
+   me: () => instance.get<GetResponseLoginType>('auth/me'),
+   logout: () => instance.delete('/auth/login')
 }
 
 export const todolistsAPI = {

@@ -156,7 +156,7 @@ export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) =
       dispatch(setTasksAC(data.items, todolistId))
       dowloadProcessHandler(dispatch, todolistId, 'idle')
    } catch (error) {
-      console.log(error)
+      console.log(error, 'GET TASKS')
       uploadFailureHandler(dispatch, data.error)
    }
 }
