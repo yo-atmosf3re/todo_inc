@@ -1,4 +1,3 @@
-import { LoginParamType } from './../api/api.types';
 import { authAPI } from './../api/todolists-API';
 import { Dispatch } from 'redux';
 import { setSwitchLinearAC, setStatusAC } from './app-reducer';
@@ -26,7 +25,7 @@ export type AuthInitialStateType = {
 const initialState: AuthInitialStateType = {
    isLoggedIn: false,
    status: '0',
-   isInitialized: true
+   isInitialized: false
 }
 
 export const authReducer = (state: AuthInitialStateType = initialState, action: ActionType): AuthInitialStateType => {
@@ -45,45 +44,25 @@ export const setIsLoggedInAC = (isLoggedIn: boolean, status: '0' | '1'): SetIsLo
 
 export const setInitializationAC = (init: boolean): SetInitializationAT => ({ type: 'me/SET-INITIALIZATION', init })
 
-const initializaAppTC = () => async (dispatch: Dispatch) => {
-   const { data } = await authAPI.me()
-   try {
-      if (data.resultCode === 0) {
-         dispatch(setIsLoggedInAC(true, '1'))
-      }
-   } catch (error) {
-      console.log(error)
-   }
-}
-
 export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
+   console.log('login')
    dispatch(setSwitchLinearAC(true))
    dispatch(setStatusAC('loading'))
+   const { data } = await authAPI.login(email, password, rememberMe)
    try {
-      const { data } = await authAPI.login(email, password, rememberMe)
-      // dispatch(setIsLoggedInAC(true, '1'))
-      // dispatch(setStatusAC('succeeded'))
-      if (data.resutCode === 0) {
+      if (data.resultCode === 0) {
+         console.log('result 0')
          dispatch(setIsLoggedInAC(true, '1'))
          dispatch(setStatusAC('succeeded'))
       }
-      if (data.resutCode > 0) {
+      if (data.resultCode > 0) {
+         console.log('result > 0')
          dispatch(setIsLoggedInAC(false, '0'))
+         dispatch(setSwitchLinearAC(false))
+         uploadFailureHandler(dispatch, data.messages[0])
       }
-      // else {
-      //    // dispatch(setStatusAC('failed'))
-      //    dispatch(setSwitchLinearAC(false))
-      //    dispatch(setIsLoggedInAC(false, '0'))
-      //    uploadFailureHandler(dispatch, data.messages[0])
-      // }
    } catch (error) {
-      // if (data.resutCode > 0) {
-      //    dispatch(setIsLoggedInAC(false, '0'))
-      // }
       console.log(error, 'login')
-      // dispatch(setSwitchLinearAC(false))
-      // dispatch(setIsLoggedInAC(false, '0'))
-      // uploadFailureHandler(dispatch, data.messages[0])
    }
 }
 
@@ -103,17 +82,18 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
 
 export const meTC = () => async (dispatch: Dispatch) => {
    dispatch(setSwitchLinearAC(true))
-   // dispatch(setInitializationAC(false))
    dispatch(setStatusAC('loading'))
    const { data } = await authAPI.me()
    try {
-      if (data.resultCode > 0) {
-         dispatch(setIsLoggedInAC(false, '0'))
-         uploadFailureHandler(dispatch, data.messages[0])
-      } else {
+      if (data.resultCode === 0) {
+         dispatch(setInitializationAC(true))
          dispatch(setStatusAC('succeeded'))
          dispatch(setIsLoggedInAC(true, '1'))
+      }
+      if (data.resultCode > 0) {
+         dispatch(setIsLoggedInAC(false, '0'))
          dispatch(setInitializationAC(true))
+         uploadFailureHandler(dispatch, data.messages[0])
       }
    } catch (error) {
       console.log(error, 'me')
